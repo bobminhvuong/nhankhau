@@ -1,0 +1,118 @@
+body{
+	font-size: 13px;
+}
+#reportrange{
+	cursor: pointer; 
+	padding: 5px 10px; 
+	border: 1px solid #ccc;
+	width: 180px;
+}
+
+#reportrange_invoices{
+	cursor: pointer; 
+	padding: 5px 10px; 
+	border: 1px solid #ccc;
+	width: 300px;
+}
+
+.table-vcenter td{
+	vertical-align: inherit !important;
+}
+#change-store{
+	display: inline-block;
+	width: 160px;
+	margin: 10px 0;
+	border-radius: 3px;
+    border: none;
+    height: 30px;
+    padding-left: 5px;
+}
+.store-name{
+	color: white;
+	display: inline-block;
+	margin-top: 15px;
+}
+.label-store{
+	background: #CCC;
+    padding: 3px 6px;
+    margin-right: 4px;
+    border-radius: 5px;
+    font-size: 13px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.form-package .select2-container{
+	width: calc(100% - 158px) !important;
+	display: inline-block;
+    margin: 0 10px;
+    float: left;
+}
+.form-inline .select2-container{
+	min-width: 100px;
+	max-width: 320px;
+}
+.select-quantity{
+	width: 100px !important;
+	float: left;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+	color: #333;
+}
+
+.form-inline input[name='phone']{
+	width: 120px;
+}
+textarea.textarea{
+	width: 100%; 
+	height: 150px; 
+	font-size: 14px; 
+	line-height: 18px; 
+	border: 1px solid #dddddd; 
+	padding: 10px;
+}
+.table-striped>tbody>tr:nth-of-type(odd){
+	background-color: #ccccccd4;	
+}
+
+.btn-verify{
+    cursor: pointer;
+}
+.verify{
+    position: relative;
+}
+.sublinks{
+    position: absolute;
+    top: 31px;
+    left: 0;
+    z-index: 999;
+}
+.list-group-item{
+    padding: 5px 10px;
+}
+
+.tablelte-excel .dataTables_empty{
+	display: none;
+}
+/*luyen add*/
+.starrating > input {display: none;}  /* Remove radio buttons */
+
+.starrating > label:before { 
+  content: "\f005"; /* Star */
+  margin: 2px;
+  font-size: 1.5em;
+  font-family: FontAwesome;
+  display: inline-block; 
+}
+
+.starrating > label
+{
+  color: #222222; /* Start color when not clicked */
+}
+
+.starrating > input:checked ~ label
+{ color: #ffca08 ; } /* Set yellow color when star checked */
+
+.starrating > input:hover ~ label
+{ color: #ffca08 ;  } /* Set yellow color when star hover */
