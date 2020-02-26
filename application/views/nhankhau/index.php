@@ -3,8 +3,8 @@
 
         <header class="main-header">
             <!--a href="" class="logo"><b>Admin Panel</b></a-->
-            <a href="http://localhost/crm-diem-nhan/" class="logo" style="background: white"><img
-                    src="http://localhost/crm-diem-nhan/assets/images/logo-text.png" width="135px"></a>
+            <!-- <a href="http://localhost/crm-diem-nhan/" class="logo" style="background: white"><img
+                    src="http://localhost/crm-diem-nhan/assets/images/logo-text.png" width="135px"></a> -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
@@ -96,7 +96,7 @@
                 <ul class="sidebar-menu">
 
                     <li class="active">
-                        <a href="nhankhau"><i class="fa fa-home"></i> Nhập excel </a>
+                        <a href="nhankhau"><i class="fa fa-home"></i> Tạo nhân khẩu </a>
                     </li>
                     <li>
                         <a href="nhankhau/list"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
@@ -119,16 +119,36 @@
 
         <div class="content-wrapper" style="min-height: 989px;">
             <section class="content">
-                <h3>Nhập danh sách người dân</h3>
+                <h3>Nhập nhân khẩu</h3>
 
                 <div class="box box-success">
-
                     <div class="box-header">
                         <form method="post" id="import_form" enctype="multipart/form-data">
-                            <p><label>Select Excel File</label>
-                                <input type="file" name="file[]" id="file" multiple required accept=".xls, .xlsx" /></p>
-                            <br />
-                            <input type="submit" name="import" value="Import" class="btn btn-info" />
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Chọn file excel</label>
+                                    <div class="clearfix"></div>
+                                    <input type="file" name="file[]" id="file" multiple required accept=".xls, .xlsx" />
+                                    <br />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Loại import</label>
+                                    <div class="clearfix"></div>
+                                    <select style="width: 220px" class="form-control" name="type"
+                                        placeholder="Giới tính" require>
+                                        <option <?php echo $type =='NEW' ? 'selected':'' ?> value="NEW">Nhập hộ mới
+                                        </option>
+                                        <option <?php echo $type =='IN' ? 'selected':'' ?> value="IN">Chuyển đến
+                                        </option>
+                                        <option <?php echo $type =='OUT' ? 'selected':'' ?> value="OUT">Chuyển đi
+                                        </option>
+                                        <option <?php echo $type =='KSINH' ? 'selected':'' ?> value="KSINH">Nhập khai
+                                            sinh</option>
+                                    </select>
+                                </div>
+                                <input type="submit" name="import" value="Nhập hộ mới" class="btn btn-info" />
+                            </div>
                         </form>
                     </div>
                     <div class="box-body">
@@ -156,18 +176,22 @@
                                     foreach ($arrReturn as $key => $value) {?>
                                     <tr>
                                         <td><?php echo $key+1 ?></td>
-                                        <td><?php echo $value->number_hk;  ?></td>
+                                        <td><?php echo !empty($value->number_hk) ? $value->number_hk : '';  ?></td>
                                         <td><?php echo $value->full_name?></td>
-                                        <td><?php echo $value->cmnd ?></td>
-                                        <td><?php echo $value->sex ?></td>
-                                        <td><?php echo $value->birtdate  ?></td>
-                                        <td><?php if(!empty($value->top) && $value->top==1 ) echo $value->from_strees.' '.$value->from_ward.' '.$value->from_city  ?>
+                                        <td><?php echo !empty($value->cmnd) ? $value->cmnd : '' ?></td>
+                                        <td><?php echo !empty($value->sex) ? $value->sex :$value->sex ?></td>
+                                        <td><?php echo !empty($value->birtdate) ?  $value->birtdate : '' ?></td>
+                                        <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
+                                                        (!empty($value->from_ward) ? $value->from_ward:'').' '.
+                                                        (!empty($value->from_city) ? $value->from_city : '')  ?>
                                         </td>
-                                        <td><?php if(!empty($value->top) && $value->top==1 ) echo $value->to_strees.' '.$value->to_ward.' '.$value->to_city;   ?>
+                                        <td><?php  echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
+                                                        (!empty($value->to_ward) ? $value->to_ward:'').' '.
+                                                        (!empty($value->to_city) ? $value->to_city : '')   ?>
                                         </td>
-                                        <td><?php echo $value->nguyenquan  ?></td>
-                                        <td><?php echo $value->dantoc  ?></td>
-                                        <td><?php echo $value->tongiao  ?></td>
+                                        <td><?php echo isset($value->nguyenquan) ? $value->nguyenquan: ''  ?></td>
+                                        <td><?php echo isset($value->dantoc) ? $value->dantoc: ''  ?></td>
+                                        <td><?php echo !empty( $value->tongiao) ?  $value->tongiao : '' ?></td>
                                         <td><?php echo isset($value->quoctich) ? $value->quoctich :'';  ?></td>
                                         <td><?php if($value->is_insert ==1) {
                             echo '<span class="label label-success">Đã lưu</span>';

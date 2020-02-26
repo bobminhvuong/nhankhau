@@ -3,8 +3,8 @@
 
         <header class="main-header">
             <!--a href="" class="logo"><b>Admin Panel</b></a-->
-            <a href="http://localhost/crm-diem-nhan/" class="logo" style="background: white"><img
-                    src="http://localhost/crm-diem-nhan/assets/images/logo-text.png" width="135px"></a>
+            <!-- <a href="http://localhost/crm-diem-nhan/" class="logo" style="background: white"><img
+                    src="http://localhost/crm-diem-nhan/assets/images/logo-text.png" width="135px"></a> -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
@@ -96,7 +96,7 @@
                 <ul class="sidebar-menu">
 
                     <li class="active">
-                        <a href="nhankhau"><i class="fa fa-home"></i> Nhập excel </a>
+                        <a href="nhankhau"><i class="fa fa-home"></i> Tạo nhân khẩu </a>
                     </li>
                     <li>
                         <a href="nhankhau/list"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
@@ -119,7 +119,7 @@
 
         <div class="content-wrapper" style="min-height: 989px;">
             <section class="content">
-                <h3>Danh sách người dân</h3>
+                <h3>Danh sách nhân khẩu</h3>
                 <div class="box box-success">
 
                     <div class="box box-header">
