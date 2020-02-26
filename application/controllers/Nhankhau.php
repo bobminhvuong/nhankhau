@@ -42,7 +42,7 @@ class Nhankhau extends MY_Controller
                         'to_strees'     => $worksheet->getCellByColumnAndRow(4, 13)->getValue(),
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 13)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 13)->getValue(),
-                        'birtdate'      => $worksheet->getCellByColumnAndRow(4, 15)->getValue(),
+                        'birtdate'      => date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow(4, 15)->getValue())),
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 16)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(3, 17)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(6, 17)->getValue(),
@@ -58,6 +58,7 @@ class Nhankhau extends MY_Controller
                         'giaycmnd'      => $worksheet->getCellByColumnAndRow(5, 32)->getValue(),
                         'nhaoHP'        => $worksheet->getCellByColumnAndRow(5, 33)->getValue(),
                         'sex'           => $worksheet->getCellByColumnAndRow(8, 15)->getValue() ? 'NAM' : 'NỮ',
+                        'status'        => 1
                     );
                   
                        
@@ -82,18 +83,22 @@ class Nhankhau extends MY_Controller
                                 'from_ward'     => $newData->from_ward,
                                 'from_city'     => $newData->from_city,
                                 'from_name'     => $newData->from_name,
+                                'to_strees'     => $newData->to_strees,
+                                'to_ward'       => $newData->to_ward,
+                                'to_city'       => $newData->to_city,
                                 'date'          => $newData->date, 
                                 'to_strees'     => $newData->to_strees,
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
                                 'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
-                                'birtdate'     => $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue(),
+                                'birtdate'     =>  date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue())),
                                 'sex'     => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'     => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
                                 'dantoc'     => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
                                 'tongiao'     => $worksheet->getCellByColumnAndRow($col_tongiao, $row+$i)->getValue(),
                                 'cmnd'     => $worksheet->getCellByColumnAndRow($col_cmnd, $row+$i)->getValue(),
-                                'qh'     => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue()
+                                'qh'     => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
+                                'status'        => 1
                             );
                            
                             array_push($arrReturn, $data);
@@ -128,7 +133,7 @@ class Nhankhau extends MY_Controller
                         'to_strees'     => $worksheet->getCellByColumnAndRow(4, 8)->getValue(),
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 8)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 8)->getValue(),
-                        'birtdate'      => $worksheet->getCellByColumnAndRow(4, 12)->getValue(),
+                        'birtdate'      => date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow(4, 12)->getValue())),
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 13)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(3, 14)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(6, 14)->getValue(),
@@ -146,6 +151,7 @@ class Nhankhau extends MY_Controller
                         'type'          => $worksheet->getCellByColumnAndRow(3, 21)->getValue(),
                         'chuyenden'     => 1,
                         'ngaychuyenden'     => $worksheet->getCellByColumnAndRow(1, 6)->getValue(),
+                        'status'        => 2
                     );
                     array_push($arrReturn, $newData);
                    
@@ -175,7 +181,7 @@ class Nhankhau extends MY_Controller
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
                                 'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
-                                'birtdate'      => $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue(),
+                                'birtdate'      => date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue())),
                                 'sex'           => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'    => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
                                 'dantoc'        => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
@@ -183,7 +189,8 @@ class Nhankhau extends MY_Controller
                                 'cmnd'          => $worksheet->getCellByColumnAndRow($col_cmnd, $row+$i)->getValue(),
                                 'qh'            => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
                                 'chuyenden'     => 1,
-                                'ngaychuyenden'     => $newData->date
+                                'ngaychuyenden'     => $newData->date,
+                                'status'        => 2
                             );
                         
                             array_push($arrReturn, $data);
@@ -199,21 +206,22 @@ class Nhankhau extends MY_Controller
                 $path = $_FILES["file"]["tmp_name"][$k];
                 $object = PHPExcel_IOFactory::load($path);
                 foreach($object->getWorksheetIterator() as $key=> $worksheet){
-                    $number_hk = $worksheet->getCellByColumnAndRow(8, 9)->getValue();
-                    if(empty($number_hk)){break;}
+                    $number_hk = $worksheet->getCellByColumnAndRow(8, 10)->getValue();
+                    $number_hk_old = $worksheet->getCellByColumnAndRow(6, 10)->getValue();
+
+                    if(empty($number_hk) && empty($number_hk_old) ){break;}
                         
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
-                        'number_hk'     => $number_hk,
-                        'number_hk_old' => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
-                        'full_name'     => !empty($worksheet->getCellByColumnAndRow(4, 11)->getValue()) ? $worksheet->getCellByColumnAndRow(4, 11)->getValue() : $worksheet->getCellByColumnAndRow(5, 11)->getValue() ,
-                        'from_strees'   => !empty($worksheet->getCellByColumnAndRow(6, 16)->getValue()) ? $worksheet->getCellByColumnAndRow(6, 16)->getValue() :$worksheet->getCellByColumnAndRow(5, 16)->getValue(),
-                        'from_ward'     => $worksheet->getCellByColumnAndRow(8, 16)->getValue(),
-                        'from_city'     => !empty($worksheet->getCellByColumnAndRow(6, 17)->getValue()) ? $worksheet->getCellByColumnAndRow(6, 17)->getValue() : $worksheet->getCellByColumnAndRow(5, 17)->getValue(),
+                        'number_hk'     => empty($number_hk) ? $number_hk_old : $number_hk,
+                        'number_hk_old' => $number_hk_old,
+                        'full_name'     => $worksheet->getCellByColumnAndRow(3, 8)->getValue(),
+                        'from_strees'   => $worksheet->getCellByColumnAndRow(4, 9)->getValue(),
+                        'from_ward'     => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
+                        'from_city'     => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
                         'from_name'     => $worksheet->getCellByColumnAndRow(3, 18)->getValue(),
-                        'from_qh'       => $worksheet->getCellByColumnAndRow(10, 10)->getValue(),
-                        'qh'            => $worksheet->getCellByColumnAndRow(10, 20)->getValue(),
-                        'top'           => 0,
+                        'qh'            => 'CH',
+                        'top'           => 1,
                         'date'          => $worksheet->getCellByColumnAndRow(1, 6)->getValue(),
                         'to_strees'     => $worksheet->getCellByColumnAndRow(4, 8)->getValue(),
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 8)->getValue(),
@@ -234,8 +242,9 @@ class Nhankhau extends MY_Controller
                         'nhaoHP'        => $worksheet->getCellByColumnAndRow(5, 33)->getValue(),
                         'sex'           => $worksheet->getCellByColumnAndRow(8, 12)->getValue() ? 'NAM' : 'NỮ',
                         'type'          => $worksheet->getCellByColumnAndRow(3, 21)->getValue(),
-                        'chuyenden'     => 1,
-                        'ngaychuyenden'     => $worksheet->getCellByColumnAndRow(1, 6)->getValue(),
+                        'chuyendi'     => 1,
+                        'ngaychuyendi'     => $worksheet->getCellByColumnAndRow(1, 6)->getValue(),
+                        'status'        => 3
                     );
                     array_push($arrReturn, $newData);
                    
@@ -272,8 +281,9 @@ class Nhankhau extends MY_Controller
                                 'tongiao'       => $worksheet->getCellByColumnAndRow($col_tongiao, $row+$i)->getValue(),
                                 'cmnd'          => $worksheet->getCellByColumnAndRow($col_cmnd, $row+$i)->getValue(),
                                 'qh'            => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
-                                'chuyenden'     => 1,
-                                'ngaychuyenden'     => $newData->date
+                                'chuyendi'      => 1,
+                                'ngaychuyendi'  => $newData->date,
+                                'status'        => 3
                             );
                         
                             array_push($arrReturn, $data);
@@ -292,20 +302,19 @@ class Nhankhau extends MY_Controller
                     $number_hk = $worksheet->getCellByColumnAndRow(7, 10)->getValue();
                     $number_hk1 = $worksheet->getCellByColumnAndRow(9, 10)->getValue();
                     if(empty($number_hk)){break;}
-                        echo $worksheet->getCellByColumnAndRow(3, 14)->getValue();
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => $number_hk.$number_hk1,
                         'number_hk_old' => $worksheet->getCellByColumnAndRow(3, 10)->getValue(),
                         'full_name'     => $worksheet->getCellByColumnAndRow(3, 13)->getValue(),
-                        'qh'            => $worksheet->getCellByColumnAndRow(4, 18)->getValue(),
+                        'qh'            => $worksheet->getCellByColumnAndRow(3, 18)->getValue(),
                         'cmnd'          => 'KHAI SINH',
                         'top'           => 0,
                         'date'          => $worksheet->getCellByColumnAndRow(2, 7)->getValue(),
                         'to_strees'     => $worksheet->getCellByColumnAndRow(3, 9)->getValue(),
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
-                        'birtdate'      => PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow(3, 14)->getValue())->format('d/m/Y'),
+                        'birtdate'      => PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow(3, 14)->getValue())->format('Y-m-d'),
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 16)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(2, 15)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(5, 15)->getValue(),
@@ -319,6 +328,7 @@ class Nhankhau extends MY_Controller
                         'giaycmnd'      => $worksheet->getCellByColumnAndRow(3, 28)->getValue(),
                         'nhaoHP'        => $worksheet->getCellByColumnAndRow(5, 27)->getValue(),
                         'sex'           => $worksheet->getCellByColumnAndRow(8, 13)->getValue() ? 'NAM' : 'NỮ',
+                        'status'        => 4
                     );
                   
                        
@@ -344,13 +354,14 @@ class Nhankhau extends MY_Controller
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
                                 'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
-                                'birtdate'     => PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue())->format('d/m/Y'),
+                                'birtdate'     => PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue())->format('Y-m-d'),
                                 'sex'     => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'     => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
                                 'dantoc'     => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
                                 'quoctich'     => $worksheet->getCellByColumnAndRow($col_quoctich, $row+$i)->getValue(),
                                 'cmnd'     => $worksheet->getCellByColumnAndRow($col_cmnd, $row+$i)->getValue(),
-                                'qh'     => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue()
+                                'qh'     => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
+                                'status'        => 4
                             );
                            
                             array_push($arrReturn, $data);
@@ -403,8 +414,15 @@ class Nhankhau extends MY_Controller
 
     public function list()
     { 
+
+        if($this->input->post('delete')){
+            $id = $this->input->post('delete');
+            $this->db->delete('nhankhau',array('id'=>$id));
+        }
+
         $sex = $this->input->get('sex') ?$this->input->get('sex') : '' ;
-        $birtdate = $this->input->get('birtdate') ? $this->input->get('birtdate'): '' ;
+        $birtdate_from = $this->input->get('birtdate_from') ? $this->input->get('birtdate_from'): '' ;
+        $birtdate_to = $this->input->get('birtdate_to') ? $this->input->get('birtdate_to'): '' ;
         $find = $this->input->get('find') ? $this->input->get('find') :'';
         $nguyenquan = $this->input->get('nguyenquan') ? $this->input->get('nguyenquan') :'';
 
@@ -419,9 +437,19 @@ class Nhankhau extends MY_Controller
             $this->db->where('nk.sex=',$sex);
         }
 
-        if(!empty($birtdate)){
-            $this->db->like('nk.birtdate',$birtdate);
+        if(!empty($birtdate_from) && empty($birtdate_to)){
+            $this->db->where('nk.birtdate>=',$birtdate_from);
         }
+
+        if(!empty($birtdate_to) && empty($birtdate_from)){
+            $this->db->where('nk.birtdate<=',$birtdate_to);
+        }
+
+        if(!empty($birtdate_from) && !empty($birtdate_to)){
+            $this->db->where('nk.birtdate>=',$birtdate_from);
+            $this->db->where('nk.birtdate<=',$birtdate_to);
+        }
+
         if(!empty($nguyenquan)){
             $this->db->like('nk.nguyenquan',$nguyenquan);
         }
@@ -429,7 +457,8 @@ class Nhankhau extends MY_Controller
         $this->db->order_by('nk.number_hk DESC');
         $arrReturn = $this->db->get()->result();
 
-        $this->mViewData['birtdate'] = $birtdate;
+        $this->mViewData['birtdate_from'] = $birtdate_from;
+        $this->mViewData['birtdate_to'] = $birtdate_to;
         $this->mViewData['nguyenquan'] = $nguyenquan;
         $this->mViewData['sex'] = $sex;
         $this->mViewData['find'] = $find;
@@ -513,5 +542,19 @@ class Nhankhau extends MY_Controller
         }
 
 		$this->render('nhankhau/list', 'empty');
+    }
+
+    public function edit($id){
+
+        if($this->input->post('id')){
+            $this->db->update('nhankhau',$_POST,array('id'=>$this->input->post('id')));
+        }
+
+        $this->db->select('*')->from('nhankhau as nk')->where('nk.id=',$id);
+        $nk = $this->db->get()->row();
+        $this->mViewData['nk'] = $nk;
+        
+
+        $this->render('nhankhau/edit', 'empty');
     }
 }

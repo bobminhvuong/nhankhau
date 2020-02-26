@@ -101,9 +101,6 @@
                     <li>
                         <a href="nhankhau/list"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
                     </li>
-                    <li>
-                        <a href="nhankhau"><i class="fa fa-home"></i>Nhập khai sinh</a>
-                    </li>
                 </ul>
                 <style>
                 #countmail {
@@ -147,7 +144,7 @@
                                             sinh</option>
                                     </select>
                                 </div>
-                                <input type="submit" name="import" value="Nhập hộ mới" class="btn btn-info" />
+                                <input type="submit" name="import" value="Nhập dữ liệu" class="btn btn-info" />
                             </div>
                         </form>
                     </div>
@@ -162,6 +159,7 @@
                                         <th>CMND</th>
                                         <th>Giới tính</th>
                                         <th>Ngày sinh</th>
+                                        <th>Quan hệ</th>
                                         <th>Đến từ</th>
                                         <th>Hiện tại</th>
                                         <th>Nguyên quán</th>
@@ -181,6 +179,9 @@
                                         <td><?php echo !empty($value->cmnd) ? $value->cmnd : '' ?></td>
                                         <td><?php echo !empty($value->sex) ? $value->sex :$value->sex ?></td>
                                         <td><?php echo !empty($value->birtdate) ?  $value->birtdate : '' ?></td>
+
+                                        <td><?php echo !empty($value->qh) ?  $value->qh : '' ?></td>
+
                                         <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
                                                         (!empty($value->from_ward) ? $value->from_ward:'').' '.
                                                         (!empty($value->from_city) ? $value->from_city : '')  ?>

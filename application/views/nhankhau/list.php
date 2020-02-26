@@ -101,9 +101,6 @@
                     <li>
                         <a href="nhankhau/list"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
                     </li>
-                    <li>
-                        <a href="nhankhau"><i class="fa fa-home"></i>Nhập khai sinh</a>
-                    </li>
                 </ul>
                 <style>
                 #countmail {
@@ -145,9 +142,12 @@
                                 <div class="form-group">
                                     <label>Ngày sinh</label>
                                     <div class="clearfix"></div>
-                                    <div class="input-group">
-                                        <input class="form-control" type="text" name="birtdate"
-                                            value="<?php echo $birtdate; ?>" placeholder="Ngày sinh">
+                                    <div class="input-group" style="width: 300px">
+                                        <input class="form-control" type="text" name="birtdate_from" style="width: 50%"
+                                            value="<?php echo $birtdate_from; ?>" placeholder="Từ ngày">
+
+                                        <input class="form-control" type="text" name="birtdate_to"  style="width: 50%"
+                                            value="<?php echo $birtdate_to; ?>" placeholder="Đén ngày">
                                     </div>
                                 </div>
 
@@ -172,7 +172,7 @@
                                 </div>
                             </form>
                         </div>
-                       
+
                         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                             <form action="" method="POST">
                                 <input class="btn btn-primary pull-right" type="submit" name="export" value="export">
@@ -208,21 +208,43 @@
                                         <td class="text-center"><?php echo $key+1 ?></td>
                                         <td class="text-center"><?php echo $value->number_hk;  ?></td>
                                         <td><?php echo $value->full_name?></td>
-                                        <td class="text-center"><?php echo $value->top ==1 ? 'CHỦ HỘ' : $value->from_qh; ?></td>
-                                        <td class="text-center"><?php echo $value->cmnd ?></td>
-                                        <td class="text-center"><?php echo $value->sex ?></td>
-                                        <td><?php echo $value->birtdate  ?></td>
-                                        <td><?php if(!empty($value->top) && $value->top==1 ) echo $value->from_strees.' '.$value->from_ward.' '.$value->from_city  ?>
-                                        </td>
-                                        <td><?php if(!empty($value->top) && $value->top==1 ) echo $value->to_strees.' '.$value->to_ward.' '.$value->to_city;   ?>
-                                        </td>
-                                        <td class="text-center"><?php echo $value->nguyenquan  ?></td>
-                                        <td class="text-center"><?php echo $value->dantoc  ?></td>
-                                        <td class="text-center"><?php echo $value->tongiao  ?></td>
                                         <td class="text-center">
-                                            <button class="btn btn-xs btn-danger">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                            <?php echo $value->top ==1 ? 'CHỦ HỘ' : (!empty($value->qh) ? $value->qh : ''); ?>
+                                        </td>
+                                        <td class="text-center"><?php echo  !empty($value->cmnd) ? $value->cmnd :''; ?>
+                                        </td>
+                                        <td class="text-center"><?php echo !empty($value->sex) ?$value->sex : '';  ?>
+                                        </td>
+                                        <td><?php echo  !empty($value->birtdate) ? $value->birtdate : '';  ?></td>
+                                        <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
+                                                        (!empty($value->from_ward) ? $value->from_ward:'').' '.
+                                                        (!empty($value->from_city) ? $value->from_city : '')  ?>
+                                        </td>
+                                        <td><?php  echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
+                                                        (!empty($value->to_ward) ? $value->to_ward:'').' '.
+                                                        (!empty($value->to_city) ? $value->to_city : '')   ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo !empty($value->nguyenquan) ? $value->nguyenquan :''; ?></td>
+                                        <td class="text-center">
+                                            <?php echo !empty($value->dantoc) ? $value->dantoc : '' ?></td>
+                                        <td class="text-center">
+                                            <?php echo !empty($value->tongiao) ? $value->tongiao : '' ?></td>
+                                        <td class="text-center">
+
+                                            <form action="nhankhau/edit/<?php echo $value->id ?>" method="post" style="float: left; ">
+                                                <button class="btn btn-xs btn-warning" type="submit">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                            </form>
+
+
+                                            <form action="" method="post" style="margin-left: 2px;">
+                                                <input type="hidden" value="<?php echo $value->id; ?>" name="delete">
+                                                <button class="btn btn-xs btn-danger" type="submit">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php }} ?>
