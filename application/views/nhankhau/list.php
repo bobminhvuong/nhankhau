@@ -128,6 +128,12 @@
                                     <input class="form-control" type="text" name="find" placeholder="Họ tên"
                                         value="<?php echo $find ?>">
                                 </div>
+                                <div class="form-group">
+                                    <label>Số hộ khẩu</label>
+                                    <div class="clearfix"></div>
+                                    <input class="form-control" type="text" name="number_hk" placeholder="Hộ khẩu"
+                                        value="<?php echo $number_hk ?>">
+                                </div>
 
                                 <div class="form-group">
                                     <label>Giới tính</label>
@@ -146,8 +152,17 @@
                                         <input class="form-control" type="text" name="birtdate_from" style="width: 50%"
                                             value="<?php echo $birtdate_from; ?>" placeholder="Từ ngày">
 
-                                        <input class="form-control" type="text" name="birtdate_to"  style="width: 50%"
-                                            value="<?php echo $birtdate_to; ?>" placeholder="Đén ngày">
+                                        <input class="form-control" type="text" name="birtdate_to" style="width: 50%"
+                                            value="<?php echo $birtdate_to; ?>" placeholder="Đến ngày">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Địa chỉ</label>
+                                    <div class="clearfix"></div>
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" name="from"
+                                            value="<?php echo $from; ?>" placeholder="Địa chỉ">
                                     </div>
                                 </div>
 
@@ -158,6 +173,18 @@
                                         <input class="form-control" type="text" name="nguyenquan"
                                             value="<?php echo $nguyenquan; ?>" placeholder="Nguyên quán">
                                     </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <div class="clearfix"></div>
+                                    <select class="form-control" name="status" placeholder="Loại">
+                                        <option value="">Tất cả</option<>
+                                        <option <?php if($status == 1) echo 'selected' ?> value="1">Hộ mới</option<>
+                                        <option <?php if($status == 2) echo 'selected' ?> value="2">Chuyển đến</option<>
+                                        <option <?php if($status == 3) echo 'selected' ?> value="3">Chuyển đi</option<>
+                                        <option <?php if($status == 4) echo 'selected' ?> value="4">Khai sinh</option<>
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
@@ -183,22 +210,24 @@
 
                     <div class="box-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th class="text-center">STT</th>
                                         <th class="text-center">Hộ khẩu</th>
                                         <th>Họ tên</th>
-                                        <th>Quan hệ</th>
-                                        <th>CMND</th>
+                                        <th class="text-center">Quan hệ</th>
+                                        <th class="text-center">CMND</th>
                                         <th class="text-center">Giới tính</th>
                                         <th class="text-center">Ngày sinh</th>
-                                        <th>Đến từ</th>
-                                        <th>Hiện tại</th>
+                                        <th style="width: 220px">Đến từ</th>
+                                        <th style="width: 220px">Hiện tại</th>
+                                        <th style="width: 220px">Chuyển đến</th>
                                         <th class="text-center">Nguyên quán</th>
                                         <th class="text-center">Dân tộc</th>
                                         <th class="text-center">Tôn giáo</th>
-                                        <th class="text-center">Thao tác</th>
+                                        <th class="text-center">Loại</th>
+                                        <th class="text-center" style="min-width: 100px">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -216,14 +245,18 @@
                                         <td class="text-center"><?php echo !empty($value->sex) ?$value->sex : '';  ?>
                                         </td>
                                         <td><?php echo  !empty($value->birtdate) ? $value->birtdate : '';  ?></td>
-                                        <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
-                                                        (!empty($value->from_ward) ? $value->from_ward:'').' '.
-                                                        (!empty($value->from_city) ? $value->from_city : '')  ?>
-                                        </td>
+
+                                            <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
+                                                            (!empty($value->from_ward) ? $value->from_ward:'').' '.
+                                                            (!empty($value->from_city) ? $value->from_city : '')  ?>
+                                            </td>
                                         <td><?php  echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
                                                         (!empty($value->to_ward) ? $value->to_ward:'').' '.
                                                         (!empty($value->to_city) ? $value->to_city : '')   ?>
                                         </td>
+                                            <td>
+                                                <?php echo $value->noichuyendi ?>
+                                            </td>
                                         <td class="text-center">
                                             <?php echo !empty($value->nguyenquan) ? $value->nguyenquan :''; ?></td>
                                         <td class="text-center">
@@ -231,8 +264,24 @@
                                         <td class="text-center">
                                             <?php echo !empty($value->tongiao) ? $value->tongiao : '' ?></td>
                                         <td class="text-center">
+                                            <span class="label <?php 
+                                                if($value->status ==1) echo 'label-primary' ;
+                                                if($value->status ==2) echo 'label-warning' ;
+                                                if($value->status ==3) echo 'label-danger' ;
+                                                if($value->status ==4) echo 'label-success' ;
+                                             ?>">
+                                                <?php 
+                                                    if($value->status ==1) echo 'Hộ mới' ;
+                                                    if($value->status ==2) echo 'Chuyển đến' ;
+                                                    if($value->status ==3) echo 'Chuyển đi' ;
+                                                    if($value->status ==4) echo 'Khai sinh' ;
+                                                ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
 
-                                            <form action="nhankhau/edit/<?php echo $value->id ?>" method="post" style="float: left; ">
+                                            <form action="nhankhau/edit/<?php echo $value->id ?>" method="post"
+                                                style="float: left; ">
                                                 <button class="btn btn-xs btn-warning" type="submit">
                                                     <i class="fa fa-edit"></i>
                                                 </button>

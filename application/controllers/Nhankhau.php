@@ -206,51 +206,38 @@ class Nhankhau extends MY_Controller
                 $path = $_FILES["file"]["tmp_name"][$k];
                 $object = PHPExcel_IOFactory::load($path);
                 foreach($object->getWorksheetIterator() as $key=> $worksheet){
+                    if($key == 3){break;}
                     $number_hk = $worksheet->getCellByColumnAndRow(8, 10)->getValue();
                     $number_hk_old = $worksheet->getCellByColumnAndRow(6, 10)->getValue();
-
-                    if(empty($number_hk) && empty($number_hk_old) ){break;}
-                        
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => empty($number_hk) ? $number_hk_old : $number_hk,
                         'number_hk_old' => $number_hk_old,
-                        'full_name'     => $worksheet->getCellByColumnAndRow(3, 8)->getValue(),
-                        'from_strees'   => $worksheet->getCellByColumnAndRow(4, 9)->getValue(),
-                        'from_ward'     => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
-                        'from_city'     => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
-                        'from_name'     => $worksheet->getCellByColumnAndRow(3, 18)->getValue(),
-                        'qh'            => 'CH',
-                        'top'           => 1,
-                        'date'          => $worksheet->getCellByColumnAndRow(1, 6)->getValue(),
-                        'to_strees'     => $worksheet->getCellByColumnAndRow(4, 8)->getValue(),
-                        'to_ward'       => $worksheet->getCellByColumnAndRow(6, 8)->getValue(),
-                        'to_city'       => $worksheet->getCellByColumnAndRow(8, 8)->getValue(),
-                        'birtdate'      => $worksheet->getCellByColumnAndRow(4, 12)->getValue(),
-                        'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 13)->getValue(),
-                        'dantoc'        => $worksheet->getCellByColumnAndRow(3, 14)->getValue(),
-                        'tongiao'       => $worksheet->getCellByColumnAndRow(6, 14)->getValue(),
-                        'quoctich'      => $worksheet->getCellByColumnAndRow(9, 14)->getValue(),
-                        'cmnd'          => $worksheet->getCellByColumnAndRow(3, 15)->getValue(),
-                        'hk01'          => $worksheet->getCellByColumnAndRow(3, 30)->getValue(),
-                        'hk02'          => $worksheet->getCellByColumnAndRow(3, 31)->getValue(),
-                        'hk07'          => $worksheet->getCellByColumnAndRow(3, 32)->getValue(),
-                        'hk08'          => $worksheet->getCellByColumnAndRow(3, 33)->getValue(),
-                        'khaisinh'      => $worksheet->getCellByColumnAndRow(5, 30)->getValue(),
-                        'kethon'        => $worksheet->getCellByColumnAndRow(5, 31)->getValue(),
-                        'giaycmnd'      => $worksheet->getCellByColumnAndRow(5, 32)->getValue(),
-                        'nhaoHP'        => $worksheet->getCellByColumnAndRow(5, 33)->getValue(),
-                        'sex'           => $worksheet->getCellByColumnAndRow(8, 12)->getValue() ? 'NAM' : 'NỮ',
-                        'type'          => $worksheet->getCellByColumnAndRow(3, 21)->getValue(),
-                        'chuyendi'     => 1,
-                        'ngaychuyendi'     => $worksheet->getCellByColumnAndRow(1, 6)->getValue(),
-                        'status'        => 3
+                        'full_name'     => $key == 0  ? $worksheet->getCellByColumnAndRow(3, 8)->getValue() : $worksheet->getCellByColumnAndRow(4, 12)->getValue(),
+                        'qh'            => $key == 0 ? 'CH' : $worksheet->getCellByColumnAndRow(10, 12)->getValue(),
+                        'top'           => $key ==0 ? 1 : 0,
+                        'date'          => $worksheet->getCellByColumnAndRow(0, 7)->getValue(),
+                        'to_strees'     => $worksheet->getCellByColumnAndRow(4, 9)->getValue(),
+                        'to_ward'       => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
+                        'to_city'       => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
+                        'birtdate'      =>  date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow(3, 13)->getValue())),
+                        'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 15)->getValue(),
+                        'dantoc'        => $worksheet->getCellByColumnAndRow(2, 16)->getValue(),
+                        'tongiao'       => $worksheet->getCellByColumnAndRow(5, 16)->getValue(),
+                        'quoctich'      => $worksheet->getCellByColumnAndRow(9, 16)->getValue(),
+                        'cmnd'          => $worksheet->getCellByColumnAndRow(3, 17)->getValue(),
+                        'sex'           => $worksheet->getCellByColumnAndRow(7, 13)->getValue(),
+                        'type'          => $worksheet->getCellByColumnAndRow(4, 19)->getValue(),
+                        'chuyendi'      => 1,
+                        'ngaychuyendi'  => $worksheet->getCellByColumnAndRow(0, 7)->getValue(),
+                        'status'        => 3,
+                        'noichuyendi'   => $worksheet->getCellByColumnAndRow(3, 18)->getValue()
                     );
                     array_push($arrReturn, $newData);
                    
 
                     if(!empty($newData->type) && (int)$newData->type > 0 ){
-                        $row = 23;
+                        $row = 21;
                         $col_name = 1;
                         $col_birtdate = 4;
                         $col_sex = 5;
@@ -263,29 +250,25 @@ class Nhankhau extends MY_Controller
                         for ($i=0; $i < (int)$newData->type; $i++) { 
                             $data = (object) array(
                                 'number'        =>$newData->number,
-                                'number_hk'     => $newData->number_hk,
+                                'number_hk'     => empty($number_hk) ? $number_hk_old : $number_hk,
                                 'number_hk_old' => $newData->number_hk_old,
-                                'from_strees'   => $newData->from_strees,
-                                'from_ward'     => $newData->from_ward,
-                                'from_city'     => $newData->from_city,
-                                'from_name'     => $newData->from_name,
                                 'date'          => $newData->date, 
                                 'to_strees'     => $newData->to_strees,
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
                                 'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
-                                'birtdate'      => $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue(),
+                                'birtdate'      => date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue())),
                                 'sex'           => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'    => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
                                 'dantoc'        => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
-                                'tongiao'       => $worksheet->getCellByColumnAndRow($col_tongiao, $row+$i)->getValue(),
                                 'cmnd'          => $worksheet->getCellByColumnAndRow($col_cmnd, $row+$i)->getValue(),
                                 'qh'            => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
+                                'quoctich'      => $worksheet->getCellByColumnAndRow($col_tongiao, $row+$i)->getValue(),
                                 'chuyendi'      => 1,
                                 'ngaychuyendi'  => $newData->date,
-                                'status'        => 3
+                                'status'        => 3,
+                                'noichuyendi'   => $newData->noichuyendi
                             );
-                        
                             array_push($arrReturn, $data);
                         }
                     }
@@ -380,11 +363,20 @@ class Nhankhau extends MY_Controller
                                     ->where('nk.cmnd=',$value->cmnd);
                         
                         $data = $this->db->get()->row();
+
                         if(empty($data)){
                             $this->db->insert('nhankhau',$value);
                             $arrReturn[$key]->is_insert = 1;
                         }else{
                             $arrReturn[$key]->is_insert = 0;
+                            if($value->status ==3){
+                                $this->db->update('nhankhau', array(
+                                    'status'    => 3,
+                                    'chuyendi'  => 1,
+                                    'ngaychuyendi'=> $value->date,
+                                    'noichuyendi'  =>$value->noichuyendi
+                                ), array('id'=>$data->id));
+                            }
                         }
                 }else{
                      $this->db->select('nk.id,nk.full_name')
@@ -400,6 +392,16 @@ class Nhankhau extends MY_Controller
                         $arrReturn[$key]->is_insert = 1;
                     }else{
                         $arrReturn[$key]->is_insert = 0;
+                        if($value->status ==3){
+                            $this->db->update('nhankhau', array(
+                                'status'    => 3,
+                                'chuyendi'  => 1,
+                                'ngaychuyendi'=> $value->date,
+                                'noichuyendi'  =>$value->noichuyendi
+                            ),
+                            array('id'=>$data1->id)
+                        );
+                        }
                     }
                 }
             }
@@ -425,7 +427,9 @@ class Nhankhau extends MY_Controller
         $birtdate_to = $this->input->get('birtdate_to') ? $this->input->get('birtdate_to'): '' ;
         $find = $this->input->get('find') ? $this->input->get('find') :'';
         $nguyenquan = $this->input->get('nguyenquan') ? $this->input->get('nguyenquan') :'';
-
+        $status = $this->input->get('status') ? $this->input->get('status') : '';
+        $number_hk = $this->input->get('number_hk') ? $this->input->get('number_hk') : '';
+        $from = $this->input->get('from') ? $this->input->get('from') : '';
         $this->db->select('*')->from('nhankhau as nk');
         if(!empty($find)){
             $this->db->group_start();
@@ -433,8 +437,21 @@ class Nhankhau extends MY_Controller
             $this->db->or_like('nk.cmnd',$find);
             $this->db->group_end();
         }
+        if(!empty($from)){
+            $this->db->group_start();
+            $this->db->or_like('CONCAT(nk.to_strees," ",nk.to_ward, " ",nk.to_city)',$from);
+            $this->db->or_like('CONCAT(nk.from_strees," ",nk.from_ward, " ",nk.from_city)',$from);
+            $this->db->or_like('nk.noichuyendi',$from);
+            $this->db->group_end();
+
+        }
+
         if(!empty($sex)){
             $this->db->where('nk.sex=',$sex);
+        }
+
+        if(!empty($status)){
+            $this->db->where('nk.status=',$status);
         }
 
         if(!empty($birtdate_from) && empty($birtdate_to)){
@@ -454,6 +471,10 @@ class Nhankhau extends MY_Controller
             $this->db->like('nk.nguyenquan',$nguyenquan);
         }
 
+        if(!empty($number_hk)){
+            $this->db->like('nk.number_hk',$number_hk);
+        }
+
         $this->db->order_by('nk.number_hk DESC');
         $arrReturn = $this->db->get()->result();
 
@@ -462,18 +483,24 @@ class Nhankhau extends MY_Controller
         $this->mViewData['nguyenquan'] = $nguyenquan;
         $this->mViewData['sex'] = $sex;
         $this->mViewData['find'] = $find;
-
+        $this->mViewData['status'] = $status;
+        $this->mViewData['status'] = $status;
+        $this->mViewData['from'] = $from;
+        $this->mViewData['number_hk'] = $number_hk;
         $this->mViewData['arrReturn'] = $arrReturn;
+
 
         if($this->input->post('export')){
             $this->load->library("excel");
             $object = new PHPExcel();
             $object->setActiveSheetIndex(0);
             $table_columns = array("Số", 
+                                "Hộ khẩu củ",
                                 "Hộ khẩu", 
                                 "Họ tên",
                                 "Giới tính",
                                 "CMND",
+                                "Quan hệ",
                                 "Ngày sinh",
                                 "Nguyên quán",
                                 "Dân tộc",
@@ -481,15 +508,8 @@ class Nhankhau extends MY_Controller
                                 "Quốc tịch",
                                 "chuyển từ",
                                 "Chuyển đến",
+                                "Chuyển đi",
                                 "Ngày chuyển",
-                                "HK01",
-                                "HK02",
-                                "HK07",
-                                "hk08",
-                                "Giấy khai sinh",
-                                "Giấy kết hôn",
-                                "Giấy cmnd",
-                                "Nha o hp",
                                 "Tình trạng",
                             );
             $column = 0;
@@ -504,33 +524,33 @@ class Nhankhau extends MY_Controller
             foreach($arrReturn as $row)
             {
                 $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->number);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->number_hk);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->full_name);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->sex);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->cmnd);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->birtdate);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row->nguyenquan);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $row->dantoc);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $row->tongiao);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, $row->quoctich);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->number_hk_old);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->number_hk);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->full_name);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->sex);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->cmnd);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row->qh);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $row->birtdate);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $row->nguyenquan);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, $row->dantoc);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, $row->tongiao);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, $row->quoctich);
 
-                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, (!empty($row->from_strees) ? $row->from_strees.' - ' : '').
+                $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, (!empty($row->from_strees) ? $row->from_strees.' - ' : '').
                                                                                     (!empty($row->from_ward) ? $row->from_ward.' - ' : '').
                                                                                     (!empty($row->from_city) ? $row->from_city : ''));
 
-                $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row,(!empty($row->to_strees) ? $row->to_strees.' - ' : '').
+                $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row,(!empty($row->to_strees) ? $row->to_strees.' - ' : '').
                                                                                     (!empty($row->to_ward) ? $row->to_ward.' - ' : '').
                                                                                     (!empty($row->to_city) ? $row->to_city : ''));
 
-                $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, $row->date);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row, $row->hk01);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row, $row->hk02);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, $row->hk07);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row, $row->hk08);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row, $row->khaisinh);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(18, $excel_row, $row->kethon);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(19, $excel_row, $row->giaycmnd);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(20, $excel_row, $row->nhaoHP);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row, $row->noichuyendi);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, $row->date);
+                $status ='Hộ mới';
+                if($row->status ==2)  $status = 'Chuyển đến';
+                if($row->status ==3)  $status = 'Chuyển đi';
+                if($row->status ==4)  $status = 'Khai sinh';
+                $object->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row, $status);
                 $excel_row++;
             }
 
