@@ -19,7 +19,14 @@ class Nhankhau extends MY_Controller
         $this->load->library('form_builder');
         $type = $this->input->post('type');
 
+      
+
         if( !empty($type) && $type =='NEW' && isset($_FILES["file"]["name"])){
+
+            ini_set('memory_limit', '200M');
+            ini_set('max_file_uploads', '100');
+
+
             $arrReturn = array();
             for ($k=0; $k < count($_FILES["file"]["name"]); $k++) { 
                 $path = $_FILES["file"]["tmp_name"][$k];
@@ -451,8 +458,14 @@ class Nhankhau extends MY_Controller
                     }
                 }
             }
+            $insert = 0;
+            foreach ($arrReturn as $key => $value) {
+                $insert = $insert+ $value->is_insert;
+            }
     
             $this->mViewData['arrReturn'] = $arrReturn;
+            $this->mViewData['insert'] = $insert;
+            $this->mViewData['hasNK'] = count($arrReturn )- $insert;
         }
         $this->mViewData['type'] = !empty($type) ? $type: '';
         
@@ -468,6 +481,10 @@ class Nhankhau extends MY_Controller
             $this->db->delete('nhankhau',array('id'=>$id));
         }
 
+        $currentPage = $this->input->get('page');
+        $currentPage = empty($currentPage) || $currentPage == 1 ? 0 : ($currentPage - 1) * 100;
+        
+
         $sex = $this->input->get('sex') ?$this->input->get('sex') : '' ;
         $birtdate_from = $this->input->get('birtdate_from') ? $this->input->get('birtdate_from'): '' ;
         $birtdate_to = $this->input->get('birtdate_to') ? $this->input->get('birtdate_to'): '' ;
@@ -476,7 +493,111 @@ class Nhankhau extends MY_Controller
         $status = $this->input->get('status') ? $this->input->get('status') : '';
         $number_hk = $this->input->get('number_hk') ? $this->input->get('number_hk') : '';
         $from = $this->input->get('from') ? $this->input->get('from') : '';
+
         $this->db->select('*')->from('nhankhau as nk');
+        if(!empty($find)){
+            $this->db->group_start();
+            $this->db->or_like('nk.full_name',$find);
+            $this->db->or_like('nk.cmnd',$find);
+            $this->db->group_end();
+        }
+        if(!empty($from)){
+            $this->db->group_start();
+            $this->db->or_like('CONCAT(nk.to_strees," ",nk.to_ward, " ",nk.to_city)',$from);
+            $this->db->or_like('CONCAT(nk.from_strees," ",nk.from_ward, " ",nk.from_city)',$from);
+            $this->db->or_like('nk.noichuyendi',$from);
+            $this->db->group_end();
+
+        }
+
+        if(!empty($sex)){
+            $this->db->where('nk.sex=',$sex);
+        }
+
+        if(!empty($status)){
+            $this->db->where('nk.status=',$status);
+        }
+
+        if(!empty($birtdate_from) && empty($birtdate_to)){
+            $this->db->where('nk.birtdate>=',$birtdate_from);
+        }
+
+        if(!empty($birtdate_to) && empty($birtdate_from)){
+            $this->db->where('nk.birtdate<=',$birtdate_to);
+        }
+
+        if(!empty($birtdate_from) && !empty($birtdate_to)){
+            $this->db->where('nk.birtdate>=',$birtdate_from);
+            $this->db->where('nk.birtdate<=',$birtdate_to);
+        }
+
+        if(!empty($nguyenquan)){
+            $this->db->like('nk.nguyenquan',$nguyenquan);
+        }
+
+        if(!empty($number_hk)){
+            $this->db->like('nk.number_hk',$number_hk);
+        }
+        $this->db->limit(50,$currentPage * 50);
+
+        $this->db->order_by('nk.number_hk DESC');
+        $arrReturn = $this->db->get()->result();
+        
+        //count
+        $this->db->select('count(nk.id) as total')->from('nhankhau as nk');
+        if(!empty($find)){
+            $this->db->group_start();
+            $this->db->or_like('nk.full_name',$find);
+            $this->db->or_like('nk.cmnd',$find);
+            $this->db->group_end();
+        }
+        if(!empty($from)){
+            $this->db->group_start();
+            $this->db->or_like('CONCAT(nk.to_strees," ",nk.to_ward, " ",nk.to_city)',$from);
+            $this->db->or_like('CONCAT(nk.from_strees," ",nk.from_ward, " ",nk.from_city)',$from);
+            $this->db->or_like('nk.noichuyendi',$from);
+            $this->db->group_end();
+
+        }
+        if(!empty($sex)) $this->db->where('nk.sex=',$sex);
+        if(!empty($status)) $this->db->where('nk.status=',$status);
+        if(!empty($birtdate_from) && empty($birtdate_to)) $this->db->where('nk.birtdate>=',$birtdate_from);
+        if(!empty($birtdate_to) && empty($birtdate_from)) $this->db->where('nk.birtdate<=',$birtdate_to);
+        if(!empty($birtdate_from) && !empty($birtdate_to)){
+            $this->db->where('nk.birtdate>=',$birtdate_from);
+            $this->db->where('nk.birtdate<=',$birtdate_to);
+        }
+
+        if(!empty($nguyenquan)) $this->db->like('nk.nguyenquan',$nguyenquan);
+
+        if(!empty($number_hk)) $this->db->like('nk.number_hk',$number_hk);
+
+        $c = $this->db->get()->row();
+
+
+
+
+        $this->mViewData['birtdate_from'] = $birtdate_from;
+        $this->mViewData['birtdate_to'] = $birtdate_to;
+        $this->mViewData['nguyenquan'] = $nguyenquan;
+        $this->mViewData['sex'] = $sex;
+        $this->mViewData['find'] = $find;
+        $this->mViewData['status'] = $status;
+        $this->mViewData['status'] = $status;
+        $this->mViewData['from'] = $from;
+        $this->mViewData['number_hk'] = $number_hk;
+        $this->mViewData['arrReturn'] = $arrReturn;
+        $results = new stdClass();
+        $results->page = $this->input->get('page') ? $this->input->get('page') : 1;
+        $results->currentShow = count($arrReturn);
+        $results->total = $c->total;
+        $this->mViewData['results'] = $results;
+
+
+        if($this->input->post('export')){
+
+
+            $this->db->select('*')->from('nhankhau as nk');
         if(!empty($find)){
             $this->db->group_start();
             $this->db->or_like('nk.full_name',$find);
@@ -522,21 +643,10 @@ class Nhankhau extends MY_Controller
         }
 
         $this->db->order_by('nk.number_hk DESC');
-        $arrReturn = $this->db->get()->result();
-
-        $this->mViewData['birtdate_from'] = $birtdate_from;
-        $this->mViewData['birtdate_to'] = $birtdate_to;
-        $this->mViewData['nguyenquan'] = $nguyenquan;
-        $this->mViewData['sex'] = $sex;
-        $this->mViewData['find'] = $find;
-        $this->mViewData['status'] = $status;
-        $this->mViewData['status'] = $status;
-        $this->mViewData['from'] = $from;
-        $this->mViewData['number_hk'] = $number_hk;
-        $this->mViewData['arrReturn'] = $arrReturn;
+        $arrReturn2 = $this->db->get()->result();
 
 
-        if($this->input->post('export')){
+
             $this->load->library("excel");
             $object = new PHPExcel();
             $object->setActiveSheetIndex(0);
@@ -567,7 +677,7 @@ class Nhankhau extends MY_Controller
 
             $excel_row = 2;
 
-            foreach($arrReturn as $row)
+            foreach($arrReturn2 as $row)
             {
                 $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->number);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->number_hk_old);

@@ -1,3 +1,5 @@
+<?php $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"; ?>
+
 <body class="skin-red" style="height: auto;" cz-shortcut-listen="true">
     <div class="wrapper" style="height: auto;">
 
@@ -99,7 +101,7 @@
                         <a href="nhankhau"><i class="fa fa-home"></i> Tạo nhân khẩu </a>
                     </li>
                     <li>
-                        <a href="nhankhau/list"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
+                        <a href="nhankhau/list?nk=1"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
                     </li>
                 </ul>
                 <style>
@@ -161,8 +163,8 @@
                                     <label>Địa chỉ</label>
                                     <div class="clearfix"></div>
                                     <div class="input-group">
-                                        <input class="form-control" type="text" name="from"
-                                            value="<?php echo $from; ?>" placeholder="Địa chỉ">
+                                        <input class="form-control" type="text" name="from" value="<?php echo $from; ?>"
+                                            placeholder="Địa chỉ">
                                     </div>
                                 </div>
 
@@ -219,7 +221,7 @@
                                         <th class="text-center">Quan hệ</th>
                                         <th class="text-center">CMND</th>
                                         <th class="text-center">Giới tính</th>
-                                        <th class="text-center"  style="min-width: 100px">Ngày sinh</th>
+                                        <th class="text-center" style="min-width: 100px">Ngày sinh</th>
                                         <th style="width: 220px">Đến từ</th>
                                         <th style="width: 220px">Hiện tại</th>
                                         <th style="width: 220px">Chuyển đến</th>
@@ -244,19 +246,20 @@
                                         </td>
                                         <td class="text-center"><?php echo !empty($value->sex) ?$value->sex : '';  ?>
                                         </td>
-                                        <td><?php echo  !empty($value->birtdate) ? date('d-m-Y',strtotime($value->birtdate)) : '';  ?></td>
+                                        <td><?php echo  !empty($value->birtdate) ? date('d-m-Y',strtotime($value->birtdate)) : '';  ?>
+                                        </td>
 
-                                            <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
+                                        <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
                                                             (!empty($value->from_ward) ? $value->from_ward:'').' '.
                                                             (!empty($value->from_city) ? $value->from_city : '')  ?>
-                                            </td>
+                                        </td>
                                         <td><?php  echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
                                                         (!empty($value->to_ward) ? $value->to_ward:'').' '.
                                                         (!empty($value->to_city) ? $value->to_city : '')   ?>
                                         </td>
-                                            <td>
-                                                <?php echo $value->noichuyendi ?>
-                                            </td>
+                                        <td>
+                                            <?php echo $value->noichuyendi ?>
+                                        </td>
                                         <td class="text-center">
                                             <?php echo !empty($value->nguyenquan) ? $value->nguyenquan :''; ?></td>
                                         <td class="text-center">
@@ -299,6 +302,48 @@
                                     <?php }} ?>
                                 </tbody>
                             </table>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                     Hiển thị <?php echo $results->currentShow ?> trên tổng số <?php echo $results->total ?>
+                                </div>
+                                
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <nav aria-label="Page navigation ">
+                                    <ul class="pagination pull-right">
+                                        <li>
+                                            <a href="
+                                                <?php 
+                                                
+                                                    if(strpos($actual_link,'?') >= 0){
+                                                        echo $actual_link.'&page='.($results->page -1);
+                                                    }else{
+                                                        echo $actual_link.'?page='.($results->page -1);
+                                                    }
+                                                    
+                                                ?>
+                                                " aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="active"><a href="#"><?php echo $results->page ?></a></li>
+                                                            <li>
+                                                                <a href="
+                                                    <?php 
+                                                        if(strpos($actual_link,'?') >= 0){
+                                                            echo $actual_link.'&page='.($results->page +1);
+                                                        }else{
+                                                            echo $actual_link.'?page='.($results->page +1);
+                                                        }
+                                                    ?>
+                                                " aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                </div>
+                            </div>
+                           
                         </div>
 
                     </div>

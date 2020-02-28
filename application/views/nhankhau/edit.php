@@ -1,3 +1,4 @@
+
 <body class="skin-red" style="height: auto;" cz-shortcut-listen="true">
     <div class="wrapper" style="height: auto;">
 
@@ -99,7 +100,7 @@
                         <a href="nhankhau"><i class="fa fa-home"></i> Tạo nhân khẩu </a>
                     </li>
                     <li>
-                        <a href="nhankhau/list"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
+                        <a href="nhankhau/list?nk=1"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
                     </li>
                 </ul>
                 <style>

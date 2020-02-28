@@ -1,3 +1,5 @@
+
+
 <body class="skin-red" style="height: auto;" cz-shortcut-listen="true">
     <div class="wrapper" style="height: auto;">
 
@@ -99,7 +101,7 @@
                         <a href="nhankhau"><i class="fa fa-home"></i> Tạo nhân khẩu </a>
                     </li>
                     <li>
-                        <a href="nhankhau/list"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
+                        <a href="nhankhau/list?nk=1"><i class="fa fa-home"></i> Danh sách nhân khẩu</a>
                     </li>
                 </ul>
                 <style>
@@ -145,6 +147,22 @@
                                     </select>
                                 </div>
                                 <input type="submit" name="import" value="Nhập dữ liệu" class="btn btn-info" />
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <?php if(!empty($arrReturn)){ ?>     
+                                    <div class="row">
+                                        <h3>Kết quả</h3>
+                                    </div> 
+                                    <div class="row">
+                                        <h4>Số nhân khẩu được thêm : <?php echo $insert ?></h4>
+                                    </div>
+                                    <div class="row">
+                                        <h4>Số nhân khẩu đã tồn tại : <?php echo $hasNK ?></h4>
+                                    </div>
+                                    <div class="row">
+                                        <h4>Số nhân khẩu lọc được : <?php echo count($arrReturn) ?></h4>
+                                    </div>
+                                <?php } ?>                         
                             </div>
                         </form>
                     </div>
@@ -204,6 +222,7 @@
                                     <?php }} ?>
                                 </tbody>
                             </table>
+                            
                         </div>
 
                     </div>
