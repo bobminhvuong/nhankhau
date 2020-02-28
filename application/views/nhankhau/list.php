@@ -219,7 +219,7 @@
                                         <th class="text-center">Quan hệ</th>
                                         <th class="text-center">CMND</th>
                                         <th class="text-center">Giới tính</th>
-                                        <th class="text-center">Ngày sinh</th>
+                                        <th class="text-center"  style="min-width: 100px">Ngày sinh</th>
                                         <th style="width: 220px">Đến từ</th>
                                         <th style="width: 220px">Hiện tại</th>
                                         <th style="width: 220px">Chuyển đến</th>
@@ -244,7 +244,7 @@
                                         </td>
                                         <td class="text-center"><?php echo !empty($value->sex) ?$value->sex : '';  ?>
                                         </td>
-                                        <td><?php echo  !empty($value->birtdate) ? $value->birtdate : '';  ?></td>
+                                        <td><?php echo  !empty($value->birtdate) ? date('d-m-Y',strtotime($value->birtdate)) : '';  ?></td>
 
                                             <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
                                                             (!empty($value->from_ward) ? $value->from_ward:'').' '.

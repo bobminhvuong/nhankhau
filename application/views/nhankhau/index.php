@@ -158,7 +158,7 @@
                                         <th>Họ tên</th>
                                         <th>CMND</th>
                                         <th>Giới tính</th>
-                                        <th>Ngày sinh</th>
+                                        <th style="min-width: 100px">Ngày sinh</th>
                                         <th>Quan hệ</th>
                                         <th>Đến từ</th>
                                         <th>Hiện tại</th>
@@ -178,7 +178,7 @@
                                         <td><?php echo $value->full_name?></td>
                                         <td><?php echo !empty($value->cmnd) ? $value->cmnd : '' ?></td>
                                         <td><?php echo !empty($value->sex) ? $value->sex :$value->sex ?></td>
-                                        <td><?php echo !empty($value->birtdate) ?  $value->birtdate : '' ?></td>
+                                        <td><?php echo !empty($value->birtdate) ?   date('d-m-Y',strtotime($value->birtdate)) : '' ?></td>
 
                                         <td><?php echo !empty($value->qh) ?  $value->qh : '' ?></td>
 
@@ -208,10 +208,7 @@
 
                     </div>
                 </div>
-
-
             </section>
         </div>
-
     </div>
 </body>

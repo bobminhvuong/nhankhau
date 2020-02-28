@@ -27,7 +27,10 @@ class Nhankhau extends MY_Controller
                 foreach($object->getWorksheetIterator() as $key=> $worksheet){
                     $number_hk = $worksheet->getCellByColumnAndRow(7, 12)->getValue();
                     if(empty($number_hk)){break;}
-                        
+                    $bdateM =$worksheet->getCellByColumnAndRow(4, 15)->getValue();
+                    $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
+                    $bdateFM =date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d');
+                    
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => $number_hk,
@@ -42,7 +45,7 @@ class Nhankhau extends MY_Controller
                         'to_strees'     => $worksheet->getCellByColumnAndRow(4, 13)->getValue(),
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 13)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 13)->getValue(),
-                        'birtdate'      => date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow(4, 15)->getValue())),
+                        'birtdate'      => $bdateFM,
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 16)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(3, 17)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(6, 17)->getValue(),
@@ -76,6 +79,10 @@ class Nhankhau extends MY_Controller
                             $col_fromQH = 11;
 
                         for ($i=0; $i < (int)$newData->type; $i++) { 
+                            $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
+                            $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
+                            $bdate =date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d');
+
                             $data = (object) array(
                                 'number'        =>$newData->number,
                                 'number_hk'     => $newData->number_hk,
@@ -91,7 +98,7 @@ class Nhankhau extends MY_Controller
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
                                 'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
-                                'birtdate'     =>  date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue())),
+                                'birtdate'     =>  $bdate,
                                 'sex'     => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'     => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
                                 'dantoc'     => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
@@ -116,6 +123,13 @@ class Nhankhau extends MY_Controller
                 foreach($object->getWorksheetIterator() as $key=> $worksheet){
                     $number_hk = $worksheet->getCellByColumnAndRow(8, 9)->getValue();
                     if(empty($number_hk)){break;}
+
+
+                    $bdateM =$worksheet->getCellByColumnAndRow(4, 12)->getValue();
+                    $bdateM = !empty($bdateM) ? $worksheet->getCellByColumnAndRow(4, 12)->getValue() :  $worksheet->getCellByColumnAndRow(3, 12)->getValue();
+                    echo $bdateM;
+                    $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
+                    $bdateFM = !empty($bdateM) ?  date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d') : '';
                         
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
@@ -133,7 +147,7 @@ class Nhankhau extends MY_Controller
                         'to_strees'     => $worksheet->getCellByColumnAndRow(4, 8)->getValue(),
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 8)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 8)->getValue(),
-                        'birtdate'      => date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow(4, 12)->getValue())),
+                        'birtdate'      => $bdateFM,
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 13)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(3, 14)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(6, 14)->getValue(),
@@ -167,7 +181,14 @@ class Nhankhau extends MY_Controller
                         $col_cmnd = 9;
                         $col_fromQH = 11;
 
+                      
+
                         for ($i=0; $i < (int)$newData->type; $i++) { 
+                            $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
+                            $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
+                            $bdate = !empty($bdateU) ? date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d') : '';
+
+
                             $data = (object) array(
                                 'number'        =>$newData->number,
                                 'number_hk'     => $newData->number_hk,
@@ -181,7 +202,7 @@ class Nhankhau extends MY_Controller
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
                                 'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
-                                'birtdate'      => date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue())),
+                                'birtdate'      => $bdate,
                                 'sex'           => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'    => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
                                 'dantoc'        => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
@@ -209,6 +230,13 @@ class Nhankhau extends MY_Controller
                     if($key == 3){break;}
                     $number_hk = $worksheet->getCellByColumnAndRow(8, 10)->getValue();
                     $number_hk_old = $worksheet->getCellByColumnAndRow(6, 10)->getValue();
+
+
+                    $bdateM =$worksheet->getCellByColumnAndRow(3, 13)->getValue();
+
+                    $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
+                    $bdateFM = !empty($bdateM) ? date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d') : '';
+
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => empty($number_hk) ? $number_hk_old : $number_hk,
@@ -220,14 +248,14 @@ class Nhankhau extends MY_Controller
                         'to_strees'     => $worksheet->getCellByColumnAndRow(4, 9)->getValue(),
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
-                        'birtdate'      =>  date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow(3, 13)->getValue())),
+                        'birtdate'      =>  $bdateFM,
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 15)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(2, 16)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(5, 16)->getValue(),
                         'quoctich'      => $worksheet->getCellByColumnAndRow(9, 16)->getValue(),
                         'cmnd'          => $worksheet->getCellByColumnAndRow(3, 17)->getValue(),
                         'sex'           => $worksheet->getCellByColumnAndRow(7, 13)->getValue(),
-                        'type'          => $worksheet->getCellByColumnAndRow(4, 19)->getValue(),
+                        'type'          => $key ==0 ?  $worksheet->getCellByColumnAndRow(4, 19)->getValue() -1 : $worksheet->getCellByColumnAndRow(4, 19)->getValue(),
                         'chuyendi'      => 1,
                         'ngaychuyendi'  => $worksheet->getCellByColumnAndRow(0, 7)->getValue(),
                         'status'        => 3,
@@ -247,7 +275,16 @@ class Nhankhau extends MY_Controller
                         $col_cmnd = 9;
                         $col_fromQH = 11;
 
+                        
                         for ($i=0; $i < (int)$newData->type; $i++) { 
+                            // echo $i;
+                            $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
+                            $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
+                            // $fm = $key == 1 ? 'm/d/Y' : 'd/m/Y';
+                            
+                            $bdate = !empty($bdateU) ?   ($key ==1 ?date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($bdateU)->format('Y-m-d'))) 
+                            : date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d')) : '';
+
                             $data = (object) array(
                                 'number'        =>$newData->number,
                                 'number_hk'     => empty($number_hk) ? $number_hk_old : $number_hk,
@@ -257,7 +294,7 @@ class Nhankhau extends MY_Controller
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
                                 'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
-                                'birtdate'      => date("Y-m-d", strtotime($worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue())),
+                                'birtdate'      => $bdate,
                                 'sex'           => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'    => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
                                 'dantoc'        => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
@@ -285,6 +322,10 @@ class Nhankhau extends MY_Controller
                     $number_hk = $worksheet->getCellByColumnAndRow(7, 10)->getValue();
                     $number_hk1 = $worksheet->getCellByColumnAndRow(9, 10)->getValue();
                     if(empty($number_hk)){break;}
+
+                    $d =$worksheet->getCellByColumnAndRow(3, 14)->getValue();
+                    $bdateM = !empty($d) ? date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($d)->format('Y-m-d'))) : '';
+
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => $number_hk.$number_hk1,
@@ -297,7 +338,8 @@ class Nhankhau extends MY_Controller
                         'to_strees'     => $worksheet->getCellByColumnAndRow(3, 9)->getValue(),
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
-                        'birtdate'      => PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow(3, 14)->getValue())->format('Y-m-d'),
+                        // 'birtdate'      => PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow(3, 14)->getValue())->format('Y-m-d'),
+                        'birtdate'      => $bdateM,
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 16)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(2, 15)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(5, 15)->getValue(),
@@ -329,6 +371,10 @@ class Nhankhau extends MY_Controller
                             $col_fromQH = 11;
 
                         for ($i=0; $i < (int)$newData->type; $i++) { 
+
+                            $d1 =$worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
+                            $bdate = !empty($d1) ? date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($d1)->format('Y-m-d'))) : '';
+
                             $data = (object) array(
                                 'number'        =>$newData->number,
                                 'number_hk'     => $newData->number_hk,
@@ -337,7 +383,7 @@ class Nhankhau extends MY_Controller
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
                                 'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
-                                'birtdate'     => PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue())->format('Y-m-d'),
+                                'birtdate'     => $bdate,
                                 'sex'     => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'     => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
                                 'dantoc'     => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
