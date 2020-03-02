@@ -73,7 +73,8 @@ class Nhankhau extends MY_Controller
                   
                        
                     array_push($arrReturn, $newData);
-
+                    echo  $worksheet->getCellByColumnAndRow(3, 20)->getValue();
+                    echo $newData->type;
                     if(!empty($newData->type) && (int)$newData->type > 0 ){
                             $row = 22;
                             $col_name = 1;
@@ -86,36 +87,38 @@ class Nhankhau extends MY_Controller
                             $col_fromQH = 11;
 
                         for ($i=0; $i < (int)$newData->type; $i++) { 
-                            $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
-                            $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
-                            $bdate =date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d');
-
-                            $data = (object) array(
-                                'number'        =>$newData->number,
-                                'number_hk'     => $newData->number_hk,
-                                'from_strees'   => $newData->from_strees,
-                                'from_ward'     => $newData->from_ward,
-                                'from_city'     => $newData->from_city,
-                                'from_name'     => $newData->from_name,
-                                'to_strees'     => $newData->to_strees,
-                                'to_ward'       => $newData->to_ward,
-                                'to_city'       => $newData->to_city,
-                                'date'          => $newData->date, 
-                                'to_strees'     => $newData->to_strees,
-                                'to_ward'       => $newData->to_ward,
-                                'to_city'       => $newData->to_city,
-                                'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
-                                'birtdate'     =>  $bdate,
-                                'sex'     => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
-                                'nguyenquan'     => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
-                                'dantoc'     => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
-                                'tongiao'     => $worksheet->getCellByColumnAndRow($col_tongiao, $row+$i)->getValue(),
-                                'cmnd'     => $worksheet->getCellByColumnAndRow($col_cmnd, $row+$i)->getValue(),
-                                'qh'     => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
-                                'status'        => 1
-                            );
+                                $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
+                                $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
+                                $bdate =date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d');
+                                $data = (object) array(
+                                    'number'        =>$newData->number,
+                                    'number_hk'     => $newData->number_hk,
+                                    'from_strees'   => $newData->from_strees,
+                                    'from_ward'     => $newData->from_ward,
+                                    'from_city'     => $newData->from_city,
+                                    'from_name'     => $newData->from_name,
+                                    'to_strees'     => $newData->to_strees,
+                                    'to_ward'       => $newData->to_ward,
+                                    'to_city'       => $newData->to_city,
+                                    'date'          => $newData->date, 
+                                    'to_strees'     => $newData->to_strees,
+                                    'to_ward'       => $newData->to_ward,
+                                    'to_city'       => $newData->to_city,
+                                    'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
+                                    'birtdate'     =>  $bdate,
+                                    'sex'     => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
+                                    'nguyenquan'     => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
+                                    'dantoc'     => $worksheet->getCellByColumnAndRow($col_dantoc, $row+$i)->getValue(),
+                                    'tongiao'     => $worksheet->getCellByColumnAndRow($col_tongiao, $row+$i)->getValue(),
+                                    'cmnd'     => $worksheet->getCellByColumnAndRow($col_cmnd, $row+$i)->getValue(),
+                                    'qh'     => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
+                                    'status'        => 1
+                                );
+                               
+                                array_push($arrReturn, $data);
                            
-                            array_push($arrReturn, $data);
+
+                           
                         }
                     }
                 }
@@ -432,17 +435,20 @@ class Nhankhau extends MY_Controller
                             }
                         }
                 }else{
+                    
                      $this->db->select('nk.id,nk.full_name')
                                     ->from('nhankhau as nk')
                                     ->where('nk.number_hk=',$value->number_hk);
                     $this->db->group_start();
                         $this->db->or_where('nk.cmnd=',!empty($value->cmnd) ? $value->cmnd : '');
-                        $this->db->or_like('nk.full_name',!empty($value->full_name) ?$value->full_name : '' );
+                        $this->db->or_where('nk.full_name=',!empty($value->full_name) ?$value->full_name : '' );
                     $this->db->group_end(); 
+                    $this->db->where('nk.birtdate=',!empty($value->birtdate) ?$value->birtdate : '' );
+
                     $data1 = $this->db->get()->row();
-                    if(empty($data1)){
-                        $this->db->insert('nhankhau',$value);
-                        $arrReturn[$key]->is_insert = 1;
+                    if(empty($data1) && !empty($value->full_name) && !empty($value->birtdate)){
+                            $this->db->insert('nhankhau',$value);
+                            $arrReturn[$key]->is_insert = 1;
                     }else{
                         $arrReturn[$key]->is_insert = 0;
                         if($value->status ==3){
