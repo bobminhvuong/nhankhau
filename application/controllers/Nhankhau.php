@@ -37,6 +37,7 @@ class Nhankhau extends MY_Controller
                     $bdateM =$worksheet->getCellByColumnAndRow(4, 15)->getValue();
                     $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
                     $bdateFM =date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d');
+                    echo $worksheet->getCellByColumnAndRow(3, 20)->getValue();
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => $number_hk,
