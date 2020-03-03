@@ -1,4 +1,3 @@
-
 <body class="skin-red" style="height: auto;" cz-shortcut-listen="true">
     <div class="wrapper" style="height: auto;">
 
@@ -123,14 +122,31 @@
                         <form action="" method="post">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label text-right text-danger">
+                                    Loại<span class="required">*</span>
+                                </label>
+                                <div class="col-sm-6">
+
+                                    <select name="status" class="form-control" required="required">
+                                        <option <?php echo !empty($nk->status) && $nk->status ==1 ?  'selected': ''  ?> value="1">Hộ mới</option>
+                                        <option <?php echo !empty($nk->status) && $nk->status ==2 ?  'selected': ''  ?> value="2">Chuyển đến</option>
+                                        <option <?php echo !empty($nk->status) && $nk->status ==3 ?  'selected': ''  ?> value="3">Chuyển đi</option>
+                                        <option <?php echo !empty($nk->status) && $nk->status ==4 ?  'selected': ''  ?> value="4">Khai sinh</option>
+                                    </select>
+
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label text-right text-danger">
                                     Số<span class="required">*</span>
                                 </label>
                                 <div class="col-sm-6">
-                                <input type="hidden" class="form-control" name="id" 
-                                        value="<?php echo $nk->id; ?>">
+                                    <input type="hidden" class="form-control" name="id" value="<?php echo $id; ?>">
 
-                                    <input type="text" class="form-control" name="number" 
-                                        value="<?php echo $nk->number; ?>">
+                                    <input type="text" class="form-control" name="number"
+                                        value="<?php echo !empty($nk->number) ?$nk->number : '' ; ?>">
                                 </div>
                                 <div class="clearfix"></div>
 
@@ -140,8 +156,8 @@
                                     Mã hộ khẩu
                                 </label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="number_hk" 
-                                        value="<?php echo $nk->number_hk; ?>">
+                                    <input type="text" class="form-control" name="number_hk"
+                                        value="<?php echo !empty($nk->number_hk) ?$nk->number_hk: '' ; ?>">
                                 </div>
                                 <div class="clearfix"></div>
 
@@ -151,8 +167,8 @@
                                     Mã hộ khẩu củ
                                 </label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="number_hk_old" 
-                                        value="<?php echo $nk->number_hk_old; ?>">
+                                    <input type="text" class="form-control" name="number_hk_old"
+                                        value="<?php echo !empty( $nk->number_hk_old) ? $nk->number_hk_old: '' ; ?>">
                                 </div>
                                 <div class="clearfix"></div>
 
@@ -162,8 +178,8 @@
                                     Họ tên
                                 </label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="full_name" 
-                                        value="<?php echo $nk->full_name; ?>">
+                                    <input type="text" class="form-control" name="full_name"
+                                        value="<?php echo !empty($nk->full_name) ? $nk->full_name : ''; ?>">
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -172,8 +188,8 @@
                                     Chứng minh
                                 </label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="cmnd" 
-                                        value="<?php echo $nk->cmnd; ?>">
+                                    <input type="text" class="form-control" name="cmnd"
+                                        value="<?php echo !empty($nk->cmnd) ?$nk->cmnd: '' ; ?>">
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -182,9 +198,11 @@
                                     Giới tính
                                 </label>
                                 <div class="col-sm-6">
-                                    <select type="text" class="form-control" name="sex" >
-                                        <option <?php echo $nk->sex =='NAM' ? 'selected':''; ?> value="NAM">NAM</option>
-                                        <option <?php echo $nk->sex =='NỮ' ? 'selected':''; ?> value="NỮ">NỮ</option>
+                                    <select type="text" class="form-control" name="sex">
+                                        <option <?php echo !empty($nk->sex) && $nk->sex =='NAM' ? 'selected':''; ?>
+                                            value="NAM">NAM</option>
+                                        <option <?php echo !empty($nk->sex) && $nk->sex =='NỮ' ? 'selected':''; ?>
+                                            value="NỮ">NỮ</option>
                                     </select>
                                 </div>
                                 <div class="clearfix"></div>
@@ -197,17 +215,17 @@
                                     <div class="row">
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <input type="text" class="form-control" name="from_strees"
-                                                placeholder="Đường" 
-                                                value="<?php echo $nk->from_strees; ?>">
+                                                placeholder="Đường"
+                                                value="<?php echo !empty($nk->from_strees) ? $nk->from_strees : '' ; ?>">
                                         </div>
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <input type="text" class="form-control" name="from_ward" placeholder="Quận"
-                                                 value="<?php echo $nk->from_ward; ?>">
+                                                value="<?php echo !empty($nk->from_ward) ? $nk->from_city: '' ; ?>">
                                         </div>
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 
                                             <input type="text" class="form-control" name="from_city" placeholder="Tỉnh"
-                                                 value="<?php echo $nk->from_city; ?>">
+                                                value="<?php echo !empty($nk->from_city) ?$nk->from_city: '' ; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -221,16 +239,16 @@
                                     <div class="row">
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <input type="text" class="form-control" name="to_strees" placeholder="Đường"
-                                                 value="<?php echo $nk->to_strees; ?>">
+                                                value="<?php echo !empty($nk->to_strees) ? $nk->to_strees: '' ; ?>">
                                         </div>
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <input type="text" class="form-control" name="to_ward" placeholder="Quận"
-                                                 value="<?php echo $nk->to_ward; ?>">
+                                                value="<?php echo  !empty($nk->to_ward) ?$nk->to_ward : '' ; ?>">
                                         </div>
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 
                                             <input type="text" class="form-control" name="to_city" placeholder="Tỉnh"
-                                                 value="<?php echo $nk->to_city; ?>">
+                                                value="<?php echo !empty($nk->to_city) ?$nk->to_city : '' ; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -242,7 +260,8 @@
                                 </label>
                                 <div class="col-sm-6">
                                     <input type="text" name="birtdate" class="form-control up_number"
-                                        value="<?php echo $nk->birtdate;  ?>">
+                                        placeholder="yyyy-mm-dd"
+                                        value="<?php echo !empty($nk->birtdate) ? $nk->birtdate : '';  ?>">
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -253,7 +272,7 @@
                                 </label>
                                 <div class="col-sm-6">
                                     <input type="text" name="nguyenquan" class="form-control up_number"
-                                        value="<?php echo $nk->nguyenquan;  ?>">
+                                        value="<?php echo !empty($nk->nguyenquan) ? $nk->nguyenquan:'';  ?>">
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -264,7 +283,7 @@
                                 </label>
                                 <div class="col-sm-6">
                                     <input type="text" name="dantoc" class="form-control up_number"
-                                        value="<?php echo $nk->dantoc;  ?>">
+                                        value="<?php echo !empty($nk->dantoc) ? $nk->dantoc : '';  ?>">
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -275,20 +294,21 @@
                                 </label>
                                 <div class="col-sm-6">
                                     <input type="text" name="tongiao" class="form-control up_number"
-                                        value="<?php echo $nk->tongiao;  ?>">
+                                        value="<?php echo !empty($nk->tongiao) ? $nk->tongiao : '';  ?>">
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
 
 
-                            <?php if($nk->status ==3){ ?>
+                            <?php if(!empty($nk->status) &&  $nk->status==3){ ?>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label text-right">
                                     Ngày chuyển đi<span class="required">*</span>
                                 </label>
                                 <div class="col-sm-6">
-                                    <input type="text" value="<?php echo $nk->ngaychuyendi; ?> " name="ngaychuyendi"
-                                        class="form-control up_number">
+                                    <input type="text"
+                                        value="<?php echo !empty($nk->ngaychuyendi) ? $nk->ngaychuyendi : ''; ?> "
+                                        name="ngaychuyendi" class="form-control up_number">
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -297,8 +317,9 @@
                                     Nơi chuyển đi<span class="required">*</span>
                                 </label>
                                 <div class="col-sm-6">
-                                    <input type="text" value="<?php echo $nk->noichuyendi; ?> " name="noichuyendi"
-                                        class="form-control up_number">
+                                    <input type="text"
+                                        value="<?php echo !empty($nk->noichuyendi) ? $nk->noichuyendi : ''; ?> "
+                                        name="noichuyendi" class="form-control up_number">
                                 </div>
                                 <div class="clearfix"></div>
                             </div>

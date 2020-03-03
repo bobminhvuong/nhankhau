@@ -37,14 +37,13 @@ class Nhankhau extends MY_Controller
                     $bdateM =$worksheet->getCellByColumnAndRow(4, 15)->getValue();
                     $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
                     $bdateFM =date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d');
-                    
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => $number_hk,
                         'full_name'     => $worksheet->getCellByColumnAndRow(3, 7)->getValue(),
                         'from_strees'   => $worksheet->getCellByColumnAndRow(6, 8)->getValue(),
                         'from_ward'     => $worksheet->getCellByColumnAndRow(8, 8)->getValue(),
-                        'from_city'     => $worksheet->getCellByColumnAndRow(4, 9)->getValue(),
+                        'from_city'     => !empty($worksheet->getCellByColumnAndRow(4, 9)->getValue()) ? $worksheet->getCellByColumnAndRow(4, 9)->getValue() :$worksheet->getCellByColumnAndRow(3, 9)->getValue() ,
                         'from_name'     => $worksheet->getCellByColumnAndRow(5, 10)->getValue(),
                         'qh'       => $worksheet->getCellByColumnAndRow(10, 10)->getValue(),
                         'top'           => 1,
@@ -70,11 +69,7 @@ class Nhankhau extends MY_Controller
                         'sex'           => $worksheet->getCellByColumnAndRow(8, 15)->getValue() ? 'NAM' : 'NỮ',
                         'status'        => 1
                     );
-                  
-                       
                     array_push($arrReturn, $newData);
-                    echo  $worksheet->getCellByColumnAndRow(3, 20)->getValue();
-                    echo $newData->type;
                     if(!empty($newData->type) && (int)$newData->type > 0 ){
                             $row = 22;
                             $col_name = 1;
@@ -488,7 +483,7 @@ class Nhankhau extends MY_Controller
         }
 
         $currentPage = $this->input->get('page');
-        $currentPage = empty($currentPage) || $currentPage == 1 ? 0 : ($currentPage - 1) * 100;
+        $currentPage = empty($currentPage) || $currentPage == 1 ? 0 : ($currentPage - 1) * 50;
         
 
         $sex = $this->input->get('sex') ?$this->input->get('sex') : '' ;
@@ -544,7 +539,7 @@ class Nhankhau extends MY_Controller
         if(!empty($number_hk)){
             $this->db->like('nk.number_hk',$number_hk);
         }
-        $this->db->limit(50,$currentPage * 50);
+        $this->db->limit(50,$currentPage);
 
         $this->db->order_by('nk.number_hk DESC');
         $arrReturn = $this->db->get()->result();
@@ -727,16 +722,19 @@ class Nhankhau extends MY_Controller
     }
 
     public function edit($id){
-
-        if($this->input->post('id')){
+        if($this->input->post('id') && $this->input->post('number_hk')){
             $this->db->update('nhankhau',$_POST,array('id'=>$this->input->post('id')));
         }
-
+        if($this->input->post('id') == 0 && $this->input->post('number_hk')){
+            $this->db->insert('nhankhau',$_POST);
+        }
+        
         $this->db->select('*')->from('nhankhau as nk')->where('nk.id=',$id);
         $nk = $this->db->get()->row();
         $this->mViewData['nk'] = $nk;
+        $this->mViewData['id'] = $id;
         
-
+       
         $this->render('nhankhau/edit', 'empty');
     }
 }

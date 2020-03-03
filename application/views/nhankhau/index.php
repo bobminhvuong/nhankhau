@@ -1,5 +1,3 @@
-
-
 <body class="skin-red" style="height: auto;" cz-shortcut-listen="true">
     <div class="wrapper" style="height: auto;">
 
@@ -123,7 +121,7 @@
                 <div class="box box-success">
                     <div class="box-header">
                         <form method="post" id="import_form" enctype="multipart/form-data">
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     <label>Chọn file excel</label>
                                     <div class="clearfix"></div>
@@ -149,22 +147,31 @@
                                 <input type="submit" name="import" value="Nhập dữ liệu" class="btn btn-info" />
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <?php if(!empty($arrReturn)){ ?>     
-                                    <div class="row">
-                                        <h3>Kết quả</h3>
-                                    </div> 
-                                    <div class="row">
-                                        <h4>Số nhân khẩu được thêm : <?php echo $insert ?></h4>
-                                    </div>
-                                    <div class="row">
-                                        <h4>Số nhân khẩu đã tồn tại : <?php echo $hasNK ?></h4>
-                                    </div>
-                                    <div class="row">
-                                        <h4>Số nhân khẩu lọc được : <?php echo count($arrReturn) ?></h4>
-                                    </div>
-                                <?php } ?>                         
+                                <?php if(!empty($arrReturn)){ ?>
+                                <div class="row">
+                                    <h3>Kết quả</h3>
+                                </div>
+                                <div class="row">
+                                    <h4>Số nhân khẩu được thêm : <?php echo $insert ?></h4>
+                                </div>
+                                <div class="row">
+                                    <h4>Số nhân khẩu đã tồn tại : <?php echo $hasNK ?></h4>
+                                </div>
+                                <div class="row">
+                                    <h4>Số nhân khẩu lọc được : <?php echo count($arrReturn) ?></h4>
+                                </div>
+                                <?php } ?>
                             </div>
+
                         </form>
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                            <form action="nhankhau/edit/0" method="post">
+                                <button class="btn btn-primary pull-right" type="submit">
+                                    <i class="fa fa-plus"></i> Tạo nhân khẩu
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
                     <div class="box-body">
                         <div class="table-responsive">
@@ -196,7 +203,8 @@
                                         <td><?php echo $value->full_name?></td>
                                         <td><?php echo !empty($value->cmnd) ? $value->cmnd : '' ?></td>
                                         <td><?php echo !empty($value->sex) ? $value->sex :$value->sex ?></td>
-                                        <td><?php echo !empty($value->birtdate) ?   date('d-m-Y',strtotime($value->birtdate)) : '' ?></td>
+                                        <td><?php echo !empty($value->birtdate) ?   date('d-m-Y',strtotime($value->birtdate)) : '' ?>
+                                        </td>
 
                                         <td><?php echo !empty($value->qh) ?  $value->qh : '' ?></td>
 
@@ -222,7 +230,7 @@
                                     <?php }} ?>
                                 </tbody>
                             </table>
-                            
+
                         </div>
 
                     </div>
