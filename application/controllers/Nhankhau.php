@@ -82,10 +82,14 @@ class Nhankhau extends MY_Controller
                             $col_cmnd = 9;
                             $col_fromQH = 11;
 
-                        for ($i=0; $i < (int)$newData->type; $i++) { 
+                        for ($i=0; $i <=7 ; $i++) { 
                                 $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
                                 $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
                                 $bdate =date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d');
+                                $fullname = $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue();
+                                if(empty($fullname)){
+                                break;
+                                }
                                 $data = (object) array(
                                     'number'        =>$newData->number,
                                     'number_hk'     => $newData->number_hk,
