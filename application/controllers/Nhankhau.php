@@ -37,7 +37,6 @@ class Nhankhau extends MY_Controller
                     $bdateM =$worksheet->getCellByColumnAndRow(4, 15)->getValue();
                     $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
                     $bdateFM =date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d');
-                    echo $worksheet->getCellByColumnAndRow(3, 20)->getValue();
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => $number_hk,
@@ -71,7 +70,7 @@ class Nhankhau extends MY_Controller
                         'status'        => 1
                     );
                     array_push($arrReturn, $newData);
-                    if(!empty($newData->type) && (int)$newData->type > 0 ){
+                    // if(!empty($newData->type) && (int)$newData->type > 0 ){
                             $row = 22;
                             $col_name = 1;
                             $col_birtdate = 4;
@@ -114,13 +113,9 @@ class Nhankhau extends MY_Controller
                                     'qh'     => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
                                     'status'        => 1
                                 );
-                               
                                 array_push($arrReturn, $data);
-                           
-
-                           
                         }
-                    }
+                    // }
                 }
             }
         }
