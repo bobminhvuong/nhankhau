@@ -691,7 +691,7 @@ class Nhankhau extends MY_Controller
                 $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->sex);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->cmnd);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row->qh);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  date('d-m-Y',strtotime($row->birtdate)));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row,  date('d/m/Y',strtotime($row->birtdate)));
                 $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $row->nguyenquan);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, $row->dantoc);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, $row->tongiao);
