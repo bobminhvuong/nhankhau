@@ -18,13 +18,12 @@ class Nhankhau extends MY_Controller
         $this->load->library('excel');
         $this->load->library('form_builder');
         $type = $this->input->post('type');
-
       
 
         if( !empty($type) && $type =='NEW' && isset($_FILES["file"]["name"])){
 
             ini_set('memory_limit', '200M');
-            ini_set('max_file_uploads', '100');
+            ini_set('max_file_uploads', 100);
 
 
             $arrReturn = array();
@@ -489,6 +488,11 @@ class Nhankhau extends MY_Controller
         $sex = $this->input->get('sex') ?$this->input->get('sex') : '' ;
         $birtdate_from = $this->input->get('birtdate_from') ? $this->input->get('birtdate_from'): '' ;
         $birtdate_to = $this->input->get('birtdate_to') ? $this->input->get('birtdate_to'): '' ;
+
+        $birtdate_to = !empty($birtdate_to) ? date_format(DateTime::createFromFormat('d/m/Y',$birtdate_to),'Y-m-d') : $birtdate_to;
+        $birtdate_from = !empty($birtdate_from) ? date_format(DateTime::createFromFormat('d/m/Y',$birtdate_from),'Y-m-d') : $birtdate_from;
+        
+
         $find = $this->input->get('find') ? $this->input->get('find') :'';
         $nguyenquan = $this->input->get('nguyenquan') ? $this->input->get('nguyenquan') :'';
         $status = $this->input->get('status') ? $this->input->get('status') : '';
@@ -578,8 +582,8 @@ class Nhankhau extends MY_Controller
 
 
 
-        $this->mViewData['birtdate_from'] = $birtdate_from;
-        $this->mViewData['birtdate_to'] = $birtdate_to;
+        $this->mViewData['birtdate_from'] = !empty($birtdate_from) ? date('d/m/Y',strtotime($birtdate_from)) :'';
+        $this->mViewData['birtdate_to'] = !empty($birtdate_to) ? date('d/m/Y',strtotime($birtdate_to)) :'';
         $this->mViewData['nguyenquan'] = $nguyenquan;
         $this->mViewData['sex'] = $sex;
         $this->mViewData['find'] = $find;
