@@ -203,7 +203,7 @@
                                         <td><?php echo $value->full_name?></td>
                                         <td><?php echo !empty($value->cmnd) ? $value->cmnd : '' ?></td>
                                         <td><?php echo !empty($value->sex) ? $value->sex :$value->sex ?></td>
-                                        <td><?php echo !empty($value->birtdate) ?   date('d-m-Y',strtotime($value->birtdate)) : '' ?>
+                                        <td><?php echo !empty($value->birtdate) ?   date('d/m/Y',strtotime($value->birtdate)) : '' ?>
                                         </td>
 
                                         <td><?php echo !empty($value->qh) ?  $value->qh : '' ?></td>

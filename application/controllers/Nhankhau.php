@@ -131,7 +131,6 @@ class Nhankhau extends MY_Controller
 
                     $bdateM =$worksheet->getCellByColumnAndRow(4, 12)->getValue();
                     $bdateM = !empty($bdateM) ? $worksheet->getCellByColumnAndRow(4, 12)->getValue() :  $worksheet->getCellByColumnAndRow(3, 12)->getValue();
-                    echo $bdateM;
                     $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
                     $bdateFM = !empty($bdateM) ?  date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d') : '';
                         
@@ -174,7 +173,7 @@ class Nhankhau extends MY_Controller
                     array_push($arrReturn, $newData);
                    
 
-                    if(!empty($newData->type) && (int)$newData->type > 0 ){
+                    // if(!empty($newData->type) && (int)$newData->type > 0 ){
                         $row = 23;
                         $col_name = 1;
                         $col_birtdate = 4;
@@ -191,7 +190,9 @@ class Nhankhau extends MY_Controller
                             $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
                             $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
                             $bdate = !empty($bdateU) ? date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d') : '';
+                            $fullname = $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue();
 
+                            if(empty($fullname)) break;
 
                             $data = (object) array(
                                 'number'        =>$newData->number,
@@ -205,7 +206,7 @@ class Nhankhau extends MY_Controller
                                 'to_strees'     => $newData->to_strees,
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
-                                'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
+                                'full_name'     => $fullname,
                                 'birtdate'      => $bdate,
                                 'sex'           => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'    => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
@@ -219,7 +220,7 @@ class Nhankhau extends MY_Controller
                             );
                         
                             array_push($arrReturn, $data);
-                        }
+                        // }
                     }
                 }
             }
@@ -268,7 +269,7 @@ class Nhankhau extends MY_Controller
                     array_push($arrReturn, $newData);
                    
 
-                    if(!empty($newData->type) && (int)$newData->type > 0 ){
+                    // if(!empty($newData->type) && (int)$newData->type > 0 ){
                         $row = 21;
                         $col_name = 1;
                         $col_birtdate = 4;
@@ -281,10 +282,14 @@ class Nhankhau extends MY_Controller
 
                         
                         for ($i=0; $i < (int)$newData->type; $i++) { 
+                            if($key ==2) break;
                             // echo $i;
                             $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
                             $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
                             // $fm = $key == 1 ? 'm/d/Y' : 'd/m/Y';
+
+                            $fullname =$worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue();
+                            if(empty($fullname)) break;
                             
                             $bdate = !empty($bdateU) ?   ($key ==1 ?date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($bdateU)->format('Y-m-d'))) 
                             : date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d')) : '';
@@ -297,7 +302,7 @@ class Nhankhau extends MY_Controller
                                 'to_strees'     => $newData->to_strees,
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
-                                'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
+                                'full_name'     => $fullname,
                                 'birtdate'      => $bdate,
                                 'sex'           => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'    => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
@@ -312,7 +317,7 @@ class Nhankhau extends MY_Controller
                             );
                             array_push($arrReturn, $data);
                         }
-                    }
+                    // }
                 }
             }
         }

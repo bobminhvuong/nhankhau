@@ -246,7 +246,7 @@
                                         </td>
                                         <td class="text-center"><?php echo !empty($value->sex) ?$value->sex : '';  ?>
                                         </td>
-                                        <td><?php echo  !empty($value->birtdate) ? date('d-m-Y',strtotime($value->birtdate)) : '';  ?>
+                                        <td><?php echo  !empty($value->birtdate) ? date('d/m/Y',strtotime($value->birtdate)) : '';  ?>
                                         </td>
 
                                         <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
