@@ -12,65 +12,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown notifications-menu">
-                            <a href="http://localhost/crm-diem-nhan/notifies/view/1">
-                                <i class="fa fa-phone"></i>
-                            </a>
-                        </li>
-
-                        <li class="dropdown notifications-menu" id="notifications-menu">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                <i class="fa fa-calendar"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header notifications-count">Bạn có 0 lịch hẹn</li>
-                                <li>
-                                    <div class="slimScrollDiv"
-                                        style="position: relative; overflow: hidden; width: auto; height: 200px;">
-                                        <ul class="menu" style="overflow: hidden; width: 100%; height: 200px;">
-                                        </ul>
-                                        <div class="slimScrollBar"
-                                            style="background: rgb(0, 0, 0); width: 3px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;">
-                                        </div>
-                                        <div class="slimScrollRail"
-                                            style="width: 3px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;">
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="footer">
-                                    <!-- <a href="http://localhost/crm-diem-nhan/admin/notifications">Xem tất cả các thông báo</a> -->
-                                    <a>Khách chưa đến</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="http://dev.seoulspa.vn/assets/uploads/avatars/0f0ced513c0088852e5966119990dd44.jpg"
-                                    height="20px">
-                                <span class="hidden-xs">Vương</span>
-                                <!-- <span class="visible-xs"><i class="fa fa-user"></i></span> -->
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="user-header">
-                                    <p>Vương</p>
-                                </li>
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="http://localhost/crm-diem-nhan/panel/account"
-                                            class="btn btn-default btn-flat">Tài khoản</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="http://localhost/crm-diem-nhan/panel/logout"
-                                            class="btn btn-default btn-flat">Đăng xuất</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
             </nav>
         </header>
         <aside class="main-sidebar">
@@ -80,15 +21,8 @@
                     <div class="pull-left info" style="left:5px">
 
                         <div class="row pull-right">
-                            <div class="col-xs-4">
-                                <img src="http://dev.seoulspa.vn/assets/uploads/avatars/0f0ced513c0088852e5966119990dd44.jpg"
-                                    height="50px" width="50px">
-                            </div>
-                            <div class="col-xs-8" style="margin-top: .5em;">
-                                <a href="panel/account">
-                                    <p>Vương</p>
-                                    <i class="fa fa-circle text-success"></i> Online
-                                </a>
+                            <div class="col-xs-12 text-center text-danger">
+                               <h3 style="font-weight: bold;">Nhân khẩu</h3>
                             </div>
                         </div>
                     </div>
