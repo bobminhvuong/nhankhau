@@ -38,7 +38,7 @@ class Nhankhau extends MY_Controller
                     $bdateFM =date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d');
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
-                        'number_hk'     => $number_hk,
+                        'number_hk'     => str_replace(' ', '', $number_hk),
                         'full_name'     => $worksheet->getCellByColumnAndRow(3, 7)->getValue(),
                         'from_strees'   => $worksheet->getCellByColumnAndRow(6, 8)->getValue(),
                         'from_ward'     => $worksheet->getCellByColumnAndRow(8, 8)->getValue(),
@@ -244,7 +244,7 @@ class Nhankhau extends MY_Controller
 
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
-                        'number_hk'     => empty($number_hk) ? $number_hk_old : $number_hk,
+                        'number_hk'     => str_replace(' ', '', empty($number_hk) ? $number_hk_old : $number_hk),
                         'number_hk_old' => $number_hk_old,
                         'full_name'     => $key == 0  ? $worksheet->getCellByColumnAndRow(3, 8)->getValue() : $worksheet->getCellByColumnAndRow(4, 12)->getValue(),
                         'qh'            => $key == 0 ? 'CH' : $worksheet->getCellByColumnAndRow(10, 12)->getValue(),
@@ -296,7 +296,7 @@ class Nhankhau extends MY_Controller
 
                             $data = (object) array(
                                 'number'        =>$newData->number,
-                                'number_hk'     => empty($number_hk) ? $number_hk_old : $number_hk,
+                                'number_hk'     => str_replace(' ', '', empty($number_hk) ? $number_hk_old : $number_hk),
                                 'number_hk_old' => $newData->number_hk_old,
                                 'date'          => $newData->date, 
                                 'to_strees'     => $newData->to_strees,
@@ -337,7 +337,7 @@ class Nhankhau extends MY_Controller
 
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
-                        'number_hk'     => $number_hk.$number_hk1,
+                        'number_hk'     => str_replace(' ', '', $number_hk.$number_hk1),
                         'number_hk_old' => $worksheet->getCellByColumnAndRow(3, 10)->getValue(),
                         'full_name'     => $worksheet->getCellByColumnAndRow(3, 13)->getValue(),
                         'qh'            => $worksheet->getCellByColumnAndRow(3, 18)->getValue(),
