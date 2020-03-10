@@ -189,8 +189,6 @@ class Nhankhau extends MY_Controller
                         for ($i=0; $i < 8; $i++) { 
                             $fullname = $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue();
                             $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
-
-                            echo $fullname;
                             if(empty($fullname) && empty($bdateU)) break;
 
                             $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
@@ -286,7 +284,6 @@ class Nhankhau extends MY_Controller
                         
                         for ($i=0; $i < 8; $i++) { 
                             if($key ==2) break;
-                            // echo $i;
                             $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
                             $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
                             // $fm = $key == 1 ? 'm/d/Y' : 'd/m/Y';
@@ -447,10 +444,6 @@ class Nhankhau extends MY_Controller
                     $this->db->where('nk.birtdate=',!empty($value->birtdate) ?$value->birtdate : '' );
 
                     $data1 = $this->db->get()->row();
-                    echo '<pre>';
-                    print_r($data1);
-                    echo '</pre>';
-                    
                     if(empty($data1) && !empty($value->full_name)){
                             $this->db->insert('nhankhau',$value);
                             $arrReturn[$key]->is_insert = 1;
