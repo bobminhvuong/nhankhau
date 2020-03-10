@@ -216,7 +216,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">STT</th>
-                                        <th class="text-center">Hộ khẩu</th>
+                                        <th  class="text-center">Hộ khẩu</th>
                                         <th>Họ tên</th>
                                         <th class="text-center">Quan hệ</th>
                                         <th class="text-center">CMND</th>
@@ -237,7 +237,12 @@
                                     foreach ($arrReturn as $key => $value) {?>
                                     <tr>
                                         <td class="text-center"><?php echo $key+1 ?></td>
-                                        <td class="text-center"><?php echo $value->number_hk;  ?></td>
+                                        <td class="text-center">
+                                            <span><?php echo $value->number_hk;  ?></span> <br>
+                                            <span>
+                                                <?php echo $value->type;  ?>
+                                            </span>
+                                        </td>
                                         <td><?php echo $value->full_name?></td>
                                         <td class="text-center">
                                             <?php echo $value->top ==1 ? 'CHỦ HỘ' : (!empty($value->qh) ? $value->qh : ''); ?>
@@ -304,14 +309,15 @@
                             </table>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                     Hiển thị <?php echo $results->currentShow ?> trên tổng số <?php echo $results->total ?>
+                                    Hiển thị <?php echo $results->currentShow ?> trên tổng số
+                                    <?php echo $results->total ?>
                                 </div>
-                                
+
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <nav aria-label="Page navigation ">
-                                    <ul class="pagination pull-right">
-                                        <li>
-                                            <a href="
+                                    <nav aria-label="Page navigation ">
+                                        <ul class="pagination pull-right">
+                                            <li>
+                                                <a href="
                                                 <?php 
                                                 
                                                     if(strpos($actual_link,'?') >= 0){
@@ -322,12 +328,12 @@
                                                     
                                                 ?>
                                                 " aria-label="Previous">
-                                                                    <span aria-hidden="true">&laquo;</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="active"><a href="#"><?php echo $results->page ?></a></li>
-                                                            <li>
-                                                                <a href="
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="active"><a href="#"><?php echo $results->page ?></a></li>
+                                            <li>
+                                                <a href="
                                                     <?php 
                                                         if(strpos($actual_link,'?') >= 0){
                                                             echo $actual_link.'&page='.($results->page +1);
@@ -336,14 +342,14 @@
                                                         }
                                                     ?>
                                                 " aria-label="Next">
-                                                                    <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
-                           
+
                         </div>
 
                     </div>

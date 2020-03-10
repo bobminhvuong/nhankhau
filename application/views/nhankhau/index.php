@@ -191,6 +191,7 @@
                                         <th>Dân tộc</th>
                                         <th>Tôn giáo</th>
                                         <th>Quốc tịch</th>
+                                        <th>File</th>
                                         <th>Trạng thái</th>
                                     </tr>
                                 </thead>
@@ -220,6 +221,7 @@
                                         <td><?php echo isset($value->dantoc) ? $value->dantoc: ''  ?></td>
                                         <td><?php echo !empty( $value->tongiao) ?  $value->tongiao : '' ?></td>
                                         <td><?php echo isset($value->quoctich) ? $value->quoctich :'';  ?></td>
+                                        <td><?php echo isset($value->type) ? $value->type :'';  ?></td>
                                         <td><?php if($value->is_insert ==1) {
                             echo '<span class="label label-success">Đã lưu</span>';
                             }else{

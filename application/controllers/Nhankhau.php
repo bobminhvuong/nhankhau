@@ -28,6 +28,9 @@ class Nhankhau extends MY_Controller
 
             $arrReturn = array();
             for ($k=0; $k < count($_FILES["file"]["name"]); $k++) { 
+
+                $file_name =  $_FILES["file"]["name"][$k];
+
                 $path = $_FILES["file"]["tmp_name"][$k];
                 $object = PHPExcel_IOFactory::load($path);
                 foreach($object->getWorksheetIterator() as $key=> $worksheet){
@@ -56,7 +59,7 @@ class Nhankhau extends MY_Controller
                         'tongiao'       => $worksheet->getCellByColumnAndRow(6, 17)->getValue(),
                         'quoctich'      => $worksheet->getCellByColumnAndRow(9, 17)->getValue(),
                         'cmnd'          => $worksheet->getCellByColumnAndRow(3, 18)->getValue(),
-                        'type'          => $worksheet->getCellByColumnAndRow(3, 20)->getValue(),
+                        'type'          => $file_name,
                         'hk01'          => $worksheet->getCellByColumnAndRow(3, 30)->getValue(),
                         'hk02'          => $worksheet->getCellByColumnAndRow(3, 31)->getValue(),
                         'hk07'          => $worksheet->getCellByColumnAndRow(3, 32)->getValue(),
@@ -110,7 +113,8 @@ class Nhankhau extends MY_Controller
                                     'tongiao'     => $worksheet->getCellByColumnAndRow($col_tongiao, $row+$i)->getValue(),
                                     'cmnd'     => $worksheet->getCellByColumnAndRow($col_cmnd, $row+$i)->getValue(),
                                     'qh'     => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
-                                    'status'        => 1
+                                    'status'        => 1,
+                                    'type'=> $file_name
                                 );
                                 array_push($arrReturn, $data);
                         }
@@ -123,6 +127,8 @@ class Nhankhau extends MY_Controller
             $arrReturn = array();
             for ($k=0; $k < count($_FILES["file"]["name"]); $k++) { 
                 $path = $_FILES["file"]["tmp_name"][$k];
+                $file_name =  $_FILES["file"]["name"][$k];
+
                 $object = PHPExcel_IOFactory::load($path);
                 foreach($object->getWorksheetIterator() as $key=> $worksheet){
                     $number_hk = $worksheet->getCellByColumnAndRow(8, 9)->getValue();
@@ -165,7 +171,7 @@ class Nhankhau extends MY_Controller
                         'giaycmnd'      => $worksheet->getCellByColumnAndRow(5, 32)->getValue(),
                         'nhaoHP'        => $worksheet->getCellByColumnAndRow(5, 33)->getValue(),
                         'sex'           => $worksheet->getCellByColumnAndRow(8, 12)->getValue() ? 'NAM' : 'NỮ',
-                        'type'          => $worksheet->getCellByColumnAndRow(3, 21)->getValue(),
+                        'type'          => $file_name,
                         'chuyenden'     => 1,
                         'ngaychuyenden'     => $worksheet->getCellByColumnAndRow(1, 6)->getValue(),
                         'status'        => 2
@@ -194,7 +200,6 @@ class Nhankhau extends MY_Controller
                             $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
                             $bdate = !empty($bdateU) ? date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d') : '';
 
-
                             $data = (object) array(
                                 'number'        =>$newData->number,
                                 'number_hk'     => $newData->number_hk,
@@ -217,7 +222,8 @@ class Nhankhau extends MY_Controller
                                 'qh'            => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
                                 'chuyenden'     => 1,
                                 'ngaychuyenden'     => $newData->date,
-                                'status'        => 2
+                                'status'        => 2,
+                                'type'          =>$file_name
                             );
                         
                             array_push($arrReturn, $data);
@@ -231,6 +237,8 @@ class Nhankhau extends MY_Controller
             $arrReturn = array();
             for ($k=0; $k < count($_FILES["file"]["name"]); $k++) { 
                 $path = $_FILES["file"]["tmp_name"][$k];
+                $file_name =  $_FILES["file"]["name"][$k];
+
                 $object = PHPExcel_IOFactory::load($path);
                 foreach($object->getWorksheetIterator() as $key=> $worksheet){
                     if($key == 3){break;}
@@ -261,7 +269,7 @@ class Nhankhau extends MY_Controller
                         'quoctich'      => $worksheet->getCellByColumnAndRow(9, 16)->getValue(),
                         'cmnd'          => $worksheet->getCellByColumnAndRow(3, 17)->getValue(),
                         'sex'           => $worksheet->getCellByColumnAndRow(7, 13)->getValue(),
-                        'type'          => $key ==0 ?  $worksheet->getCellByColumnAndRow(4, 19)->getValue() -1 : $worksheet->getCellByColumnAndRow(4, 19)->getValue(),
+                        'type'          => $file_name,
                         'chuyendi'      => 1,
                         'ngaychuyendi'  => $worksheet->getCellByColumnAndRow(0, 7)->getValue(),
                         'status'        => 3,
@@ -313,7 +321,8 @@ class Nhankhau extends MY_Controller
                                 'chuyendi'      => 1,
                                 'ngaychuyendi'  => $newData->date,
                                 'status'        => 3,
-                                'noichuyendi'   => $newData->noichuyendi
+                                'noichuyendi'   => $newData->noichuyendi,
+                                'type'          =>$file_name
                             );
                             array_push($arrReturn, $data);
                         }
@@ -324,6 +333,8 @@ class Nhankhau extends MY_Controller
 
         if( !empty($type) && $type =='KSINH' && isset($_FILES["file"]["name"])){
             $arrReturn = array();
+            $file_name =  $_FILES["file"]["name"][$k];
+
             for ($k=0; $k < count($_FILES["file"]["name"]); $k++) { 
                 $path = $_FILES["file"]["tmp_name"][$k];
                 $object = PHPExcel_IOFactory::load($path);
@@ -353,7 +364,7 @@ class Nhankhau extends MY_Controller
                         'dantoc'        => $worksheet->getCellByColumnAndRow(2, 15)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(5, 15)->getValue(),
                         'quoctich'      => $worksheet->getCellByColumnAndRow(9, 15)->getValue(),
-                        'type'          => $worksheet->getCellByColumnAndRow(3, 19)->getValue(),
+                        'type'          => $file_name,
                         'hk01'          => $worksheet->getCellByColumnAndRow(3, 25)->getValue(),
                         'hk02'          => $worksheet->getCellByColumnAndRow(3, 26)->getValue(),
                         'hk08'          => $worksheet->getCellByColumnAndRow(3, 27)->getValue(),
@@ -401,7 +412,8 @@ class Nhankhau extends MY_Controller
                                 'quoctich'     => $worksheet->getCellByColumnAndRow($col_quoctich, $row+$i)->getValue(),
                                 'cmnd'     => $worksheet->getCellByColumnAndRow($col_cmnd, $row+$i)->getValue(),
                                 'qh'     => $worksheet->getCellByColumnAndRow($col_fromQH, $row+$i)->getValue(),
-                                'status'        => 4
+                                'status'        => 4,
+                                'type'  =>$file_name
                             );
                            
                             array_push($arrReturn, $data);
