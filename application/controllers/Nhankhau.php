@@ -186,13 +186,16 @@ class Nhankhau extends MY_Controller
 
                       
 
-                        for ($i=0; $i < (int)$newData->type; $i++) { 
+                        for ($i=0; $i < 8; $i++) { 
+                            $fullname = $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue();
                             $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
+
+                            echo $fullname;
+                            if(empty($fullname) && empty($bdateU)) break;
+
                             $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
                             $bdate = !empty($bdateU) ? date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d') : '';
-                            $fullname = $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue();
 
-                            if(empty($fullname)) break;
 
                             $data = (object) array(
                                 'number'        =>$newData->number,
@@ -281,7 +284,7 @@ class Nhankhau extends MY_Controller
                         $col_fromQH = 11;
 
                         
-                        for ($i=0; $i < (int)$newData->type; $i++) { 
+                        for ($i=0; $i < 8; $i++) { 
                             if($key ==2) break;
                             // echo $i;
                             $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
@@ -368,7 +371,7 @@ class Nhankhau extends MY_Controller
                        
                     array_push($arrReturn, $newData);
 
-                    if(!empty($newData->type) && (int)$newData->type > 0 ){
+                    // if(!empty($newData->type) && (int)$newData->type > 0 ){
                             $row = 21;
                             $col_name = 1;
                             $col_birtdate = 4;
@@ -379,7 +382,9 @@ class Nhankhau extends MY_Controller
                             $col_cmnd = 9;
                             $col_fromQH = 11;
 
-                        for ($i=0; $i < (int)$newData->type; $i++) { 
+                        for ($i=0; $i < 8; $i++) { 
+                            $fullname = $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue();
+                            if(empty($fullname)) break;
 
                             $d1 =$worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
                             $bdate = !empty($d1) ? date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($d1)->format('Y-m-d'))) : '';
@@ -391,7 +396,7 @@ class Nhankhau extends MY_Controller
                                 'to_strees'     => $newData->to_strees,
                                 'to_ward'       => $newData->to_ward,
                                 'to_city'       => $newData->to_city,
-                                'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue(),
+                                'full_name'     => $fullname,
                                 'birtdate'     => $bdate,
                                 'sex'     => $worksheet->getCellByColumnAndRow($col_sex, $row+$i)->getValue(),
                                 'nguyenquan'     => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row+$i)->getValue(),
@@ -404,7 +409,7 @@ class Nhankhau extends MY_Controller
                            
                             array_push($arrReturn, $data);
                         }
-                    }
+                    // }
                 }
             }
         }
@@ -438,14 +443,15 @@ class Nhankhau extends MY_Controller
                      $this->db->select('nk.id,nk.full_name')
                                     ->from('nhankhau as nk')
                                     ->where('nk.number_hk=',$value->number_hk);
-                    $this->db->group_start();
-                        $this->db->or_where('nk.cmnd=',!empty($value->cmnd) ? $value->cmnd : '');
-                        $this->db->or_where('nk.full_name=',!empty($value->full_name) ?$value->full_name : '' );
-                    $this->db->group_end(); 
+                        $this->db->where('nk.full_name=',!empty($value->full_name) ?$value->full_name : '' );
                     $this->db->where('nk.birtdate=',!empty($value->birtdate) ?$value->birtdate : '' );
 
                     $data1 = $this->db->get()->row();
-                    if(empty($data1) && !empty($value->full_name) && !empty($value->birtdate)){
+                    echo '<pre>';
+                    print_r($data1);
+                    echo '</pre>';
+                    
+                    if(empty($data1) && !empty($value->full_name)){
                             $this->db->insert('nhankhau',$value);
                             $arrReturn[$key]->is_insert = 1;
                     }else{
