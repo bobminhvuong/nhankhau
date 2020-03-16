@@ -159,8 +159,7 @@
                                         <th style="width: 220px">Hiện tại</th>
                                         <th style="width: 220px">Chuyển đến</th>
                                         <th class="text-center">Nguyên quán</th>
-                                        <th class="text-center">Dân tộc</th>
-                                        <th class="text-center">Tôn giáo</th>
+                                        <th class="text-center">Ngày đi/đến</th>
                                         <th class="text-center">Loại</th>
                                         <th class="text-center" style="min-width: 100px">Thao tác</th>
                                     </tr>
@@ -201,9 +200,10 @@
                                         <td class="text-center">
                                             <?php echo !empty($value->nguyenquan) ? $value->nguyenquan :''; ?></td>
                                         <td class="text-center">
-                                            <?php echo !empty($value->dantoc) ? $value->dantoc : '' ?></td>
-                                        <td class="text-center">
-                                            <?php echo !empty($value->tongiao) ? $value->tongiao : '' ?></td>
+                                            <span><?php echo $value->date; ?></span><br>
+                                            <span class="label label-primary"><?php echo $value->type ?></span>
+                                        </td>
+                                       
                                         <td class="text-center">
                                             <span class="label <?php 
                                                 if($value->status ==1) echo 'label-primary' ;

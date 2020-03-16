@@ -122,10 +122,7 @@
                                         <th>Đến từ</th>
                                         <th>Hiện tại</th>
                                         <th>Nguyên quán</th>
-                                        <th>Dân tộc</th>
-                                        <th>Tôn giáo</th>
-                                        <th>Quốc tịch</th>
-                                        <th>File</th>
+                                        <th>Ngày đi/đến</th>
                                         <th>Trạng thái</th>
                                     </tr>
                                 </thead>
@@ -152,10 +149,10 @@
                                                         (!empty($value->to_city) ? $value->to_city : '')   ?>
                                         </td>
                                         <td><?php echo isset($value->nguyenquan) ? $value->nguyenquan: ''  ?></td>
-                                        <td><?php echo isset($value->dantoc) ? $value->dantoc: ''  ?></td>
-                                        <td><?php echo !empty( $value->tongiao) ?  $value->tongiao : '' ?></td>
-                                        <td><?php echo isset($value->quoctich) ? $value->quoctich :'';  ?></td>
-                                        <td><?php echo isset($value->type) ? $value->type :'';  ?></td>
+                                        <td>
+                                            <span><?php echo isset($value->date) ? $value->date :'';  ?></span><br>
+                                            <span class="label label-primary"><?php echo isset($value->type) ? $value->type :'';  ?></span>
+                                    </td>
                                         <td><?php if($value->is_insert ==1) {
                             echo '<span class="label label-success">Đã lưu</span>';
                             }else{
