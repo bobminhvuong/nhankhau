@@ -159,7 +159,7 @@
                                         <th style="width: 220px">Hiện tại</th>
                                         <th style="width: 220px">Chuyển đến</th>
                                         <th class="text-center">Nguyên quán</th>
-                                        <th class="text-center">Ngày đi/đến</th>
+                                        <th class="text-center">Ngày</th>
                                         <th class="text-center">Loại</th>
                                         <th class="text-center" style="min-width: 100px">Thao tác</th>
                                     </tr>

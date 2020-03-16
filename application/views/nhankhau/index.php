@@ -122,7 +122,7 @@
                                         <th>Đến từ</th>
                                         <th>Hiện tại</th>
                                         <th>Nguyên quán</th>
-                                        <th>Ngày đi/đến</th>
+                                        <th>Ngày </th>
                                         <th>Trạng thái</th>
                                     </tr>
                                 </thead>

@@ -333,9 +333,8 @@ class Nhankhau extends MY_Controller
 
         if( !empty($type) && $type =='KSINH' && isset($_FILES["file"]["name"])){
             $arrReturn = array();
-            $file_name =  $_FILES["file"]["name"][$k];
-
             for ($k=0; $k < count($_FILES["file"]["name"]); $k++) { 
+                $file_name =  $_FILES["file"]["name"][$k];
                 $path = $_FILES["file"]["tmp_name"][$k];
                 $object = PHPExcel_IOFactory::load($path);
                 foreach($object->getWorksheetIterator() as $key=> $worksheet){
@@ -354,7 +353,7 @@ class Nhankhau extends MY_Controller
                         'qh'            => $worksheet->getCellByColumnAndRow(3, 18)->getValue(),
                         'cmnd'          => 'KHAI SINH',
                         'top'           => 0,
-                        'date'          => $worksheet->getCellByColumnAndRow(2, 7)->getValue(),
+                        'date'          => $worksheet->getCellByColumnAndRow(1, 7)->getValue(),
                         'to_strees'     => $worksheet->getCellByColumnAndRow(3, 9)->getValue(),
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
