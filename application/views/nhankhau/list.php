@@ -157,7 +157,6 @@
                                         <th class="text-center" style="min-width: 100px">Ngày sinh</th>
                                         <th style="width: 220px">Đến từ</th>
                                         <th style="width: 220px">Hiện tại</th>
-                                        <th style="width: 220px">Chuyển đến</th>
                                         <th class="text-center">Nguyên quán</th>
                                         <th class="text-center">Dân tộc</th>
                                         <th class="text-center">Ngày</th>
@@ -187,16 +186,25 @@
                                         <td><?php echo  !empty($value->birtdate) ? date('d/m/Y',strtotime($value->birtdate)) : '';  ?>
                                         </td>
 
-                                        <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
-                                                            (!empty($value->from_ward) ? $value->from_ward:'').' '.
-                                                            (!empty($value->from_city) ? $value->from_city : '')  ?>
-                                        </td>
-                                        <td><?php  echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
-                                                        (!empty($value->to_ward) ? $value->to_ward:'').' '.
-                                                        (!empty($value->to_city) ? $value->to_city : '')   ?>
-                                        </td>
                                         <td>
-                                            <?php echo $value->noichuyendi ?>
+                                            <?php 
+                                            if($value->status ==3){
+                                                echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
+                                                        (!empty($value->to_ward) ? $value->to_ward:'').' '.
+                                                        (!empty($value->to_city) ? $value->to_city : '');
+                                            }else{
+                                                echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
+                                                (!empty($value->from_ward) ? $value->from_ward:'').' '.
+                                                (!empty($value->from_city) ? $value->from_city : '') ;
+                                            }  ?>
+                                        </td>
+                                        <td><?php if($value->status ==3){
+                                            echo $value->noichuyendi;
+                                        }else{
+                                            echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
+                                            (!empty($value->to_ward) ? $value->to_ward:'').' '.
+                                            (!empty($value->to_city) ? $value->to_city : '');
+                                        }     ?>
                                         </td>
                                         <td class="text-center">
                                             <?php echo !empty($value->nguyenquan) ? $value->nguyenquan :''; ?></td>

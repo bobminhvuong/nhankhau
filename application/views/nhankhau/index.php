@@ -141,13 +141,23 @@
 
                                         <td><?php echo !empty($value->qh) ?  $value->qh : '' ?></td>
 
-                                        <td><?php echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
-                                                        (!empty($value->from_ward) ? $value->from_ward:'').' '.
-                                                        (!empty($value->from_city) ? $value->from_city : '')  ?>
+                                        <td><?php if($value->status ==3){
+                                            echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
+                                            (!empty($value->to_ward) ? $value->to_ward:'').' '.
+                                            (!empty($value->to_city) ? $value->to_city : '');
+                                        }else{
+                                            echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
+                                            (!empty($value->from_ward) ? $value->from_ward:'').' '.
+                                            (!empty($value->from_city) ? $value->from_city : '');
+                                        }   ?>
                                         </td>
-                                        <td><?php  echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
-                                                        (!empty($value->to_ward) ? $value->to_ward:'').' '.
-                                                        (!empty($value->to_city) ? $value->to_city : '')   ?>
+                                        <td><?php if($value->status ==3){
+                                            echo !empty($value->noichuyendi) ? $value->noichuyendi: '';
+                                        }else{
+                                            echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
+                                            (!empty($value->to_ward) ? $value->to_ward:'').' '.
+                                            (!empty($value->to_city) ? $value->to_city : '') ;
+                                        }  ?>
                                         </td>
                                         <td><?php echo isset($value->nguyenquan) ? $value->nguyenquan: ''  ?></td>
                                         <td class="text-center">
