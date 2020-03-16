@@ -24,7 +24,7 @@
 
                         <div class="row pull-right">
                             <div class="col-xs-12 text-center text-danger">
-                               <h3 style="font-weight: bold;">Nhân khẩu</h3>
+                                <h3 style="font-weight: bold;">Nhân khẩu</h3>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">STT</th>
-                                        <th  class="text-center">Hộ khẩu</th>
+                                        <th class="text-center">Hộ khẩu</th>
                                         <th>Họ tên</th>
                                         <th class="text-center">Quan hệ</th>
                                         <th class="text-center">CMND</th>
@@ -159,6 +159,7 @@
                                         <th style="width: 220px">Hiện tại</th>
                                         <th style="width: 220px">Chuyển đến</th>
                                         <th class="text-center">Nguyên quán</th>
+                                        <th class="text-center">Dân tộc</th>
                                         <th class="text-center">Ngày</th>
                                         <th class="text-center">Loại</th>
                                         <th class="text-center" style="min-width: 100px">Thao tác</th>
@@ -200,10 +201,13 @@
                                         <td class="text-center">
                                             <?php echo !empty($value->nguyenquan) ? $value->nguyenquan :''; ?></td>
                                         <td class="text-center">
+                                            <span><?php echo $value->dantoc; ?></span><br>
+                                        </td>
+                                        <td class="text-center">
                                             <span><?php echo $value->date; ?></span><br>
                                             <span class="label label-primary"><?php echo $value->type ?></span>
                                         </td>
-                                       
+
                                         <td class="text-center">
                                             <span class="label <?php 
                                                 if($value->status ==1) echo 'label-primary' ;

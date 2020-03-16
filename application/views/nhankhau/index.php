@@ -122,6 +122,7 @@
                                         <th>Đến từ</th>
                                         <th>Hiện tại</th>
                                         <th>Nguyên quán</th>
+                                        <th>Dân tộc </th>
                                         <th>Ngày </th>
                                         <th>Trạng thái</th>
                                     </tr>
@@ -149,6 +150,9 @@
                                                         (!empty($value->to_city) ? $value->to_city : '')   ?>
                                         </td>
                                         <td><?php echo isset($value->nguyenquan) ? $value->nguyenquan: ''  ?></td>
+                                        <td class="text-center">
+                                            <span><?php echo $value->dantoc; ?></span><br>
+                                        </td>
                                         <td>
                                             <span><?php echo isset($value->date) ? $value->date :'';  ?></span><br>
                                             <span class="label label-primary"><?php echo isset($value->type) ? $value->type :'';  ?></span>
