@@ -194,8 +194,8 @@
                                 </label>
                                 <div class="col-sm-6">
                                     <input type="text" name="birtdate" class="form-control up_number"
-                                        placeholder="yyyy-mm-dd"
-                                        value="<?php echo !empty($nk->birtdate) ? $nk->birtdate : '';  ?>">
+                                        placeholder="dd/mm/yyyy"
+                                        value="<?php echo !empty($nk->birtdate) ? date('d/m/Y',strtotime($nk->birtdate)) : '';  ?>">
                                 </div>
                                 <div class="clearfix"></div>
                             </div>

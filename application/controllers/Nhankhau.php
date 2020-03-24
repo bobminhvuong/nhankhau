@@ -741,6 +741,10 @@ class Nhankhau extends MY_Controller
     }
 
     public function edit($id){
+        if(!empty($_POST['birtdate'])){
+            $_POST['birtdate'] = date_format(DateTime::createFromFormat('d/m/Y',$_POST['birtdate']),'Y-m-d');
+        }
+
         if($this->input->post('id') && $this->input->post('number_hk')){
             $this->db->update('nhankhau',$_POST,array('id'=>$this->input->post('id')));
         }

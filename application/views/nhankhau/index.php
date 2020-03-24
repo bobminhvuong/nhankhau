@@ -105,7 +105,6 @@
                                 </button>
                             </form>
                         </div>
-
                     </div>
                     <div class="box-body">
                         <div class="table-responsive">
