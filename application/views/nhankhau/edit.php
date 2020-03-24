@@ -244,6 +244,20 @@
                                 <div class="clearfix"></div>
                             </div>
 
+                            <?php if(!empty($nk->status) &&  $nk->status==2){ ?>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label text-right">
+                                    Ngày chuyển đến<span class="required">*</span>
+                                </label>
+                                <div class="col-sm-6">
+                                    <input type="text"
+                                        value="<?php echo !empty($nk->ngaychuyenden) ? $nk->ngaychuyenden : ''; ?> "
+                                        name="ngaychuyenden" class="form-control up_number">
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <?php } ?>
+
 
                             <?php if(!empty($nk->status) &&  $nk->status==3){ ?>
                             <div class="form-group">
