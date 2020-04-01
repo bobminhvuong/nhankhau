@@ -38,7 +38,7 @@ class Nhankhau extends MY_Controller
                     if(empty($number_hk)){break;}
                     $bdateM =$worksheet->getCellByColumnAndRow(4, 15)->getValue();
                     $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
-                    $bdateFM =date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d');
+                    $bdateFM =date_format(date_create_from_format('d/m/Y',$bdateM),'Y-m-d');
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => str_replace(' ', '', $number_hk),
@@ -85,8 +85,12 @@ class Nhankhau extends MY_Controller
 
                         for ($i=0; $i <=7 ; $i++) { 
                                 $bdateU = $worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
+                                // echo $bdateU.'<br>';
                                 $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
-                                $bdate =date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d');
+
+                                // $bdate = date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d');
+                                $bdate = date_create_from_format('d/m/Y',$bdateU);
+                                $bdate =date_format($bdate, 'Y-m-d');
                                 $fullname = $worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue();
                                 if(empty($fullname)){
                                 break;
@@ -138,7 +142,7 @@ class Nhankhau extends MY_Controller
                     $bdateM =$worksheet->getCellByColumnAndRow(4, 12)->getValue();
                     $bdateM = !empty($bdateM) ? $worksheet->getCellByColumnAndRow(4, 12)->getValue() :  $worksheet->getCellByColumnAndRow(3, 12)->getValue();
                     $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
-                    $bdateFM = !empty($bdateM) ?  date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d') : '';
+                    $bdateFM = !empty($bdateM) ?  date_format(date_create_from_format('d/m/Y',$bdateM),'Y-m-d') : '';
                         
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
@@ -198,7 +202,7 @@ class Nhankhau extends MY_Controller
                             if(empty($fullname) && empty($bdateU)) break;
 
                             $bdateU = strlen($bdateU) == 4 ?  '01/01/'.$bdateU : $bdateU;
-                            $bdate = !empty($bdateU) ? date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d') : '';
+                            $bdate = !empty($bdateU) ? date_format(date_create_from_format('d/m/Y',$bdateU),'Y-m-d') : '';
 
                             $data = (object) array(
                                 'number'        =>$newData->number,
@@ -247,9 +251,8 @@ class Nhankhau extends MY_Controller
 
 
                     $bdateM =$worksheet->getCellByColumnAndRow(3, 13)->getValue();
-
                     $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
-                    $bdateFM = !empty($bdateM) ? date_format(DateTime::createFromFormat('d/m/Y',$bdateM),'Y-m-d') : '';
+                    $bdateFM = !empty($bdateM) ? date_format(date_create_from_format('d/m/Y',$bdateM) ,'Y-m-d') : '';
 
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
@@ -299,8 +302,9 @@ class Nhankhau extends MY_Controller
                             $fullname =$worksheet->getCellByColumnAndRow($col_name, $row+$i)->getValue();
                             if(empty($fullname)) break;
                             
-                            $bdate = !empty($bdateU) ?   ($key ==1 ?date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($bdateU)->format('Y-m-d'))) 
-                            : date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d')) : '';
+                            // $bdate = !empty($bdateU) ?   ($key ==1 ?date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($bdateU)->format('Y-m-d'))) 
+                            // : date_format(DateTime::createFromFormat('d/m/Y',$bdateU),'Y-m-d')) : '';
+                            $bdate = !empty($bdateU) ? date_format(date_create_from_format('d/m/Y',$bdateU),'Y-m-d') : '';
 
                             $data = (object) array(
                                 'number'        =>$newData->number,
@@ -342,8 +346,14 @@ class Nhankhau extends MY_Controller
                     $number_hk1 = $worksheet->getCellByColumnAndRow(9, 10)->getValue();
                     if(empty($number_hk)){break;}
 
-                    $d =$worksheet->getCellByColumnAndRow(3, 14)->getValue();
-                    $bdateM = !empty($d) ? date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($d)->format('Y-m-d'))) : '';
+
+                    $bdateM =$worksheet->getCellByColumnAndRow(3, 14)->getValue();
+                    echo $bdateM ;
+                    // $bdateM = !empty($bdateM) ? $worksheet->getCellByColumnAndRow(4, 12)->getValue() :  $worksheet->getCellByColumnAndRow(3, 12)->getValue();
+                    $bdateM = strlen($bdateM) == 4 ?  '01/01/'.$bdateM : $bdateM;
+                    $bdateFM = !empty($bdateM) ?  date_format(date_create_from_format('d/m/Y',$bdateM),'Y-m-d') : '';
+                    // $bdateM = !empty($d) ? date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($d)->format('Y-m-d'))) : '';
+
 
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
@@ -358,7 +368,7 @@ class Nhankhau extends MY_Controller
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
                         // 'birtdate'      => PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow(3, 14)->getValue())->format('Y-m-d'),
-                        'birtdate'      => $bdateM,
+                        'birtdate'      => $bdateFM,
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 16)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(2, 15)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(5, 15)->getValue(),
@@ -394,7 +404,7 @@ class Nhankhau extends MY_Controller
                             if(empty($fullname)) break;
 
                             $d1 =$worksheet->getCellByColumnAndRow($col_birtdate, $row+$i)->getValue();
-                            $bdate = !empty($d1) ? date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($d1)->format('Y-m-d'))) : '';
+                            $bdate = !empty($d1) ?  date_format(date_create_from_format('d/m/Y',$d1),'Y-m-d') : '';
 
                             $data = (object) array(
                                 'number'        =>$newData->number,
