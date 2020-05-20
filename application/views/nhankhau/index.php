@@ -22,7 +22,7 @@
 
                         <div class="row pull-right">
                             <div class="col-xs-12 text-center text-danger">
-                               <h3 style="font-weight: bold;">Nhân khẩu</h3>
+                                <h3 style="font-weight: bold;">Nhân khẩu</h3>
                             </div>
                         </div>
                     </div>
@@ -37,13 +37,13 @@
                     </li>
                 </ul>
                 <style>
-                #countmail {
-                    width: 20px;
-                    height: 20px;
-                    line-height: 20px;
-                    text-align: center;
-                    border-radius: 50%;
-                }
+                    #countmail {
+                        width: 20px;
+                        height: 20px;
+                        line-height: 20px;
+                        text-align: center;
+                        border-radius: 50%;
+                    }
                 </style>
             </section>
         </aside>
@@ -66,34 +66,33 @@
                                 <div class="form-group">
                                     <label>Loại import</label>
                                     <div class="clearfix"></div>
-                                    <select style="width: 220px" class="form-control" name="type"
-                                        placeholder="Giới tính" require>
-                                        <option <?php echo $type =='NEW' ? 'selected':'' ?> value="NEW">Nhập hộ mới
+                                    <select style="width: 220px" class="form-control" name="type" placeholder="Giới tính" require>
+                                        <option <?php echo $type == 'NEW' ? 'selected' : '' ?> value="NEW">Nhập hộ mới
                                         </option>
-                                        <option <?php echo $type =='IN' ? 'selected':'' ?> value="IN">Chuyển đến
+                                        <option <?php echo $type == 'IN' ? 'selected' : '' ?> value="IN">Chuyển đến
                                         </option>
-                                        <option <?php echo $type =='OUT' ? 'selected':'' ?> value="OUT">Chuyển đi
+                                        <option <?php echo $type == 'OUT' ? 'selected' : '' ?> value="OUT">Chuyển đi
                                         </option>
-                                        <option <?php echo $type =='KSINH' ? 'selected':'' ?> value="KSINH">Nhập khai
+                                        <option <?php echo $type == 'KSINH' ? 'selected' : '' ?> value="KSINH">Nhập khai
                                             sinh</option>
                                     </select>
                                 </div>
                                 <input type="submit" name="import" value="Nhập dữ liệu" class="btn btn-info" />
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <?php if(!empty($arrReturn)){ ?>
-                                <div class="row">
-                                    <h3>Kết quả</h3>
-                                </div>
-                                <div class="row">
-                                    <h4>Số nhân khẩu được thêm : <?php echo $insert ?></h4>
-                                </div>
-                                <div class="row">
-                                    <h4>Số nhân khẩu đã tồn tại : <?php echo $hasNK ?></h4>
-                                </div>
-                                <div class="row">
-                                    <h4>Số nhân khẩu lọc được : <?php echo count($arrReturn) ?></h4>
-                                </div>
+                                <?php if (!empty($arrReturn)) { ?>
+                                    <div class="row">
+                                        <h3>Kết quả</h3>
+                                    </div>
+                                    <div class="row">
+                                        <h4>Số nhân khẩu được thêm : <?php echo $insert ?></h4>
+                                    </div>
+                                    <div class="row">
+                                        <h4>Số nhân khẩu đã tồn tại : <?php echo $hasNK ?></h4>
+                                    </div>
+                                    <div class="row">
+                                        <h4>Số nhân khẩu lọc được : <?php echo count($arrReturn) ?></h4>
+                                    </div>
                                 <?php } ?>
                             </div>
 
@@ -108,72 +107,180 @@
                     </div>
                     <div class="box-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-bordered">
                                 <thead>
                                     <tr>
                                         <th>STT</th>
-                                        <th>Hộ khẩu</th>
-                                        <th>Họ tên</th>
-                                        <th>CMND</th>
-                                        <th>Giới tính</th>
-                                        <th style="min-width: 100px">Ngày sinh</th>
-                                        <th>Quan hệ</th>
-                                        <th>Đến từ</th>
-                                        <th>Hiện tại</th>
-                                        <th>Nguyên quán</th>
-                                        <th>Dân tộc </th>
-                                        <th>Ngày </th>
+                                        <th>Nhân khẩu</th>
+                                        <th>Thông tin</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Thông tin File</th>
                                         <th>Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if(!empty($arrReturn)){
-                                    foreach ($arrReturn as $key => $value) {?>
-                                    <tr>
-                                        <td><?php echo $key+1 ?></td>
-                                        <td><?php echo !empty($value->number_hk) ? $value->number_hk : '';  ?></td>
-                                        <td><?php echo $value->full_name?></td>
-                                        <td><?php echo !empty($value->cmnd) ? $value->cmnd : '' ?></td>
-                                        <td><?php echo !empty($value->sex) ? $value->sex :$value->sex ?></td>
-                                        <td><?php echo !empty($value->birtdate) ?   date('d/m/Y',strtotime($value->birtdate)) : '' ?>
-                                        </td>
+                                    <?php if (!empty($arrReturn)) {
+                                        foreach ($arrReturn as $key => $value) { ?>
+                                            <tr>
+                                                <td class="text-center"><?php echo $key + 1 ?></td>
+                                                <td>
+                                                    <table>
+                                                        <tr data-toggle="tooltip" title="Hộ khẩu">
+                                                            <td class="text-center" style="width:30px">
+                                                                <i class="fa fa-home text-primary"></i>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo !empty($value->number_hk) ? $value->number_hk : '' ?>
+                                                            </td>
+                                                        </tr>
+                                                        <tr data-toggle="tooltip" title="Họ tên">
+                                                            <td class="text-center">
+                                                                <?php if (!empty($value->sex)) {
+                                                                    if ($value->sex == 'NAM') {
+                                                                        echo '<i class="fa fa-male text-primary"></i>';
+                                                                    } else {
+                                                                        echo '<i class="fa fa-female text-primary"></i>';
+                                                                    }
+                                                                } else {
+                                                                    echo '<i class="fa fa-user text-primary"></i>';
+                                                                } ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $value->full_name ?>
+                                                            </td>
+                                                        </tr>
+                                                        <tr data-toggle="tooltip" title="cmnd">
+                                                            <td class="text-center">
+                                                                <i class="fa fa-credit-card text-primary"></i>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo !empty($value->cmnd) ? $value->cmnd : '' ?>
+                                                            </td>
+                                                        </tr>
+                                                        <tr data-toggle="tooltip" title="Ngày sinh">
+                                                            <td class="text-center">
+                                                                <i class="fa fa-calendar text-primary"></i>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo !empty($value->birtdate) ?   date('d/m/Y', strtotime($value->birtdate)) : '' ?>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
 
-                                        <td><?php echo !empty($value->qh) ?  $value->qh : '' ?></td>
+                                                    <table>
+                                                        <tr data-toggle="tooltip" title="Quan hệ với chủ hộ">
+                                                            <td style="width: 35px">
+                                                                <strong>
+                                                                    QH:
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo !empty($value->qh) ?  $value->qh : '' ?>
+                                                            </td>
+                                                        </tr>
+                                                        <tr data-toggle="tooltip" title="Nguyên quán">
+                                                            <td>
+                                                                <strong>
+                                                                    NQ:
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo isset($value->nguyenquan) ? $value->nguyenquan : ''  ?>
+                                                            </td>
+                                                        </tr>
+                                                        <tr data-toggle="tooltip" title="Dân tộc">
+                                                            <td>
+                                                                <strong>
+                                                                    DT:
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                <span><?php echo $value->dantoc; ?></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr data-toggle="tooltip" title="Ngày đến / đi">
+                                                            <td>
+                                                                <strong>
+                                                                    NN:
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                <span><?php echo isset($value->date) ? $value->date : '';  ?></span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table>
+                                                        <tr>
+                                                            <td style="width: 65px">
+                                                                <strong>Đến từ: </strong>
+                                                            </td>
+                                                            <td>
+                                                                <?php if ($value->status == 3) {
+                                                                    echo (!empty($value->to_strees) ? $value->to_strees : '') . ' ' .
+                                                                        (!empty($value->to_ward) ? $value->to_ward : '') . ' ' .
+                                                                        (!empty($value->to_city) ? $value->to_city : '');
+                                                                } else {
+                                                                    echo (!empty($value->from_strees) ? $value->from_strees : '') . ' ' .
+                                                                        (!empty($value->from_ward) ? $value->from_ward : '') . ' ' .
+                                                                        (!empty($value->from_city) ? $value->from_city : '');
+                                                                }   ?>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width: 65px">
+                                                                <strong>Hiện tại:</strong>
+                                                            </td>
+                                                            <td>
+                                                                <?php if ($value->status == 3) {
+                                                                    echo !empty($value->noichuyendi) ? $value->noichuyendi : '';
+                                                                } else {
+                                                                    echo (!empty($value->to_strees) ? $value->to_strees : '') . ' ' .
+                                                                        (!empty($value->to_ward) ? $value->to_ward : '') . ' ' .
+                                                                        (!empty($value->to_city) ? $value->to_city : '');
+                                                                }  ?>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>
+                                                                    Tên file:
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo isset($value->type) ? $value->type : '';  ?>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>
+                                                                    Ngày nhập:
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo isset($value->created) ? $value->created : '';  ?>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
 
-                                        <td><?php if($value->status ==3){
-                                            echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
-                                            (!empty($value->to_ward) ? $value->to_ward:'').' '.
-                                            (!empty($value->to_city) ? $value->to_city : '');
-                                        }else{
-                                            echo (!empty($value->from_strees) ?$value->from_strees : '' ).' '.
-                                            (!empty($value->from_ward) ? $value->from_ward:'').' '.
-                                            (!empty($value->from_city) ? $value->from_city : '');
-                                        }   ?>
-                                        </td>
-                                        <td><?php if($value->status ==3){
-                                            echo !empty($value->noichuyendi) ? $value->noichuyendi: '';
-                                        }else{
-                                            echo (!empty($value->to_strees) ?$value->to_strees : '' ).' '.
-                                            (!empty($value->to_ward) ? $value->to_ward:'').' '.
-                                            (!empty($value->to_city) ? $value->to_city : '') ;
-                                        }  ?>
-                                        </td>
-                                        <td><?php echo isset($value->nguyenquan) ? $value->nguyenquan: ''  ?></td>
-                                        <td class="text-center">
-                                            <span><?php echo $value->dantoc; ?></span><br>
-                                        </td>
-                                        <td>
-                                            <span><?php echo isset($value->date) ? $value->date :'';  ?></span><br>
-                                            <span class="label label-primary"><?php echo isset($value->type) ? $value->type :'';  ?></span>
-                                    </td>
-                                        <td><?php if($value->is_insert ==1) {
-                            echo '<span class="label label-success">Đã lưu</span>';
-                            }else{
-                                echo '<span class="label label-warning">Đã tồn tại</span>';
-                            }  ?>
-                                        </td>
-                                    </tr>
-                                    <?php }} ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php if ($value->is_insert == 1) {
+                                                        echo '<span class="label label-success">Đã lưu</span>';
+                                                    } else {
+                                                        echo '<span class="label label-warning">Đã tồn tại</span>';
+                                                    }  ?>
+                                                </td>
+                                            </tr>
+                                    <?php }
+                                    } ?>
                                 </tbody>
                             </table>
 
