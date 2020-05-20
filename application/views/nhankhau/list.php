@@ -142,9 +142,9 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" width="5%">STT</th>
-                                        <th width="20%">Nhân khẩu</th>
+                                        <th width="15%">Nhân khẩu</th>
                                         <th width="15%">Thông tin</th>
-                                        <th width="25%" style="width: 300px">Địa chỉ</th>
+                                        <th width="30%" style="width: 300px">Địa chỉ</th>
                                         <th width="20%">Thông tin File</th>
                                         <th width="10%" class="text-center">Loại</th>
                                         <th width="5%" class="text-center" style="min-width: 100px">Thao tác</th>

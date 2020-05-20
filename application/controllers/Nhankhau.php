@@ -455,9 +455,9 @@ class Nhankhau extends MY_Controller
                         $this->db->insert('nhankhau', $value);
                         $value->nk_id = $this->db->insert_id();
 
-                        $tmp = $value;
-                        unset($tmp->created);
-                        $this->db->insert('nhankhau_imports', $value);
+                        // $tmp = $value;
+                        // unset($tmp->created);
+                        // $this->db->insert('nhankhau_imports', $value);
                         $arrReturn[$key]->is_insert = 1;
                     } else {
                         $arrReturn[$key]->is_insert = 0;
@@ -483,9 +483,9 @@ class Nhankhau extends MY_Controller
                         $this->db->insert('nhankhau', $value);
                         $value->nk_id = $this->db->insert_id();
 
-                        $tmp = $value;
-                        unset($tmp->created);
-                        $this->db->insert('nhankhau_imports', $value);
+                        // $tmp = $value;
+                        // unset($tmp->created);
+                        // $this->db->insert('nhankhau_imports', $value);
 
                         $arrReturn[$key]->is_insert = 1;
                     } else {
