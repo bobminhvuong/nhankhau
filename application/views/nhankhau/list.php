@@ -136,7 +136,7 @@
 
                     </div>
 
-                    <div class="box-body">
+                    <div class="box-body" data-toggle="tooltip" title="Ngày sinh" ng-app="app" ng-controller="nkCtrl" ng-init="init()">
                         <div class="table-responsive">
                             <table class="table table-hover table-striped table-bordered">
                                 <thead>
@@ -194,7 +194,27 @@
                                                                 <i class="fa fa-calendar text-primary"></i>
                                                             </td>
                                                             <td>
-                                                                <?php echo !empty($value->birtdate) ?   date('d/m/Y', strtotime($value->birtdate)) : '' ?>
+                                                                <span class="bdate-<?php echo $value->id ?>" ng-if="isView != <?php echo $value->id ?>">
+                                                                    <?php echo $value->birtdate ? date('d/m/Y', strtotime($value->birtdate)) : '' ?>
+                                                                </span>
+                                                                <input ng-model="data.date" style="width:120px;height:20px" placeholder="dd/mm/yyyy" ng-if="isView == <?php echo $value->id ?>" type="text" class="idate">
+                                                                <button ng-if="isView != <?php echo $value->id ?>" class="btn btn-xs btn-warning" ng-click="editDate(<?php echo $value->id ?>,'')">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </button>
+                                                                <button ng-if="isView == <?php echo $value->id ?>" class="btn btn-xs btn-primary" ng-click="saveDate()">
+                                                                    <i class="fa fa-check"></i>
+                                                                </button>
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr data-toggle="tooltip" title="Ngày sinh chưa format">
+                                                            <td class="text-center">
+                                                                <i class="fa fa-file-excel-o text-primary"></i>
+                                                            </td>
+                                                            <td>
+                                                                <span>
+                                                                    <?php echo !empty($value->birtdate_import) ?  $value->birtdate_import : '' ?>
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -384,15 +404,46 @@
                                     </nav>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
-
-
             </section>
         </div>
-
     </div>
 </body>
+
+<script>
+    angular.module('app', [])
+        .controller('nkCtrl', function($scope, $http) {
+            $scope.init = () => {
+                $scope.isView = 0;
+                $scope.data = {
+                    date: ''
+                };
+            }
+
+            $scope.editDate = (id, date, dateTmp) => {
+                $scope.isView = id;
+                $scope.data.id = id;
+                $scope.data.date = $('.bdate-' + id).text().replace(/ /g, "");
+                $scope.data.date = $scope.data.date.replace(/\n/g, "");
+            }
+
+            $scope.saveDate = () => {
+                $scope.isView = 0;
+                let date = {
+                    id: $scope.data.id,
+                    date: $scope.data.date
+                }
+
+                $http.post(base_url + '/nhankhau/ajax_update_birtdate', date).then(r => {
+                    if (r.data && r.data.status == 1) {
+                        toastr['success']('Cập nhật thành công');
+                        $('.bdate-' + $scope.data.id).text($scope.data.date);
+                    } else {
+                        toastr['error'](r.data && r.data.messages ? r.data.messages : 'Có lỗi xẩy ra! Vui lòng thử lại sau');
+                    }
+                })
+            }
+        })
+</script>

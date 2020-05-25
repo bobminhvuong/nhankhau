@@ -56,6 +56,7 @@ class Nhankhau extends MY_Controller
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 13)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 13)->getValue(),
                         'birtdate'      => $bdateFM,
+                        'birtdate_import' => $worksheet->getCellByColumnAndRow(4, 15)->getValue(),
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 16)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(3, 17)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(6, 17)->getValue(),
@@ -113,6 +114,7 @@ class Nhankhau extends MY_Controller
                             'to_city'       => $newData->to_city,
                             'full_name'     => $worksheet->getCellByColumnAndRow($col_name, $row + $i)->getValue(),
                             'birtdate'     =>  $bdate,
+                            'birtdate_import' => $worksheet->getCellByColumnAndRow($col_birtdate, $row + $i)->getValue(),
                             'sex'     => $worksheet->getCellByColumnAndRow($col_sex, $row + $i)->getValue(),
                             'nguyenquan'     => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row + $i)->getValue(),
                             'dantoc'     => $worksheet->getCellByColumnAndRow($col_dantoc, $row + $i)->getValue(),
@@ -165,6 +167,7 @@ class Nhankhau extends MY_Controller
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 8)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 8)->getValue(),
                         'birtdate'      => $bdateFM,
+                        'birtdate_import' => $worksheet->getCellByColumnAndRow(4, 12)->getValue(),
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 13)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(3, 14)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(6, 14)->getValue(),
@@ -222,6 +225,7 @@ class Nhankhau extends MY_Controller
                             'to_city'       => $newData->to_city,
                             'full_name'     => $fullname,
                             'birtdate'      => $bdate,
+                            'birtdate_import' => $worksheet->getCellByColumnAndRow($col_birtdate, $row + $i)->getValue(),
                             'sex'           => $worksheet->getCellByColumnAndRow($col_sex, $row + $i)->getValue(),
                             'nguyenquan'    => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row + $i)->getValue(),
                             'dantoc'        => $worksheet->getCellByColumnAndRow($col_dantoc, $row + $i)->getValue(),
@@ -272,6 +276,7 @@ class Nhankhau extends MY_Controller
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
                         'birtdate'      =>  $bdateFM,
+                        'birtdate_import' => $worksheet->getCellByColumnAndRow(3, 13)->getValue(),
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 15)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(2, 16)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(5, 16)->getValue(),
@@ -322,6 +327,7 @@ class Nhankhau extends MY_Controller
                             'to_city'       => $newData->to_city,
                             'full_name'     => $fullname,
                             'birtdate'      => $bdate,
+                            'birtdate_import' =>  $worksheet->getCellByColumnAndRow($col_birtdate, $row + $i)->getValue(),
                             'sex'           => $worksheet->getCellByColumnAndRow($col_sex, $row + $i)->getValue(),
                             'nguyenquan'    => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row + $i)->getValue(),
                             'dantoc'        => $worksheet->getCellByColumnAndRow($col_dantoc, $row + $i)->getValue(),
@@ -356,13 +362,15 @@ class Nhankhau extends MY_Controller
 
 
                     $bdateM = $worksheet->getCellByColumnAndRow(3, 14)->getValue();
-                    echo $bdateM;
-                    // $bdateM = !empty($bdateM) ? $worksheet->getCellByColumnAndRow(4, 12)->getValue() :  $worksheet->getCellByColumnAndRow(3, 12)->getValue();
+
+                    $bdateM = empty($bdateM) ? $worksheet->getCellByColumnAndRow(4, 12)->getValue() : $bdateM;
+                    $bdateM = empty($bdateM) ? $worksheet->getCellByColumnAndRow(3, 12)->getValue() : $bdateM;
                     $bdateM = strlen($bdateM) == 4 ?  '01/01/' . $bdateM : $bdateM;
-                    $bdateFM = !empty($bdateM) ?  date_format(date_create_from_format('d/m/Y', $bdateM), 'Y-m-d') : '';
-                    // $bdateM = !empty($d) ? date('Y-m-d',strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($d)->format('Y-m-d'))) : '';
+                    // $bdateFM = !empty($bdateM) ?  date_format(date_create_from_format('d/m/Y', $bdateM), 'Y-m-d') : '';
+                    $bdateM = !empty($bdateM) ? date('d/m/Y', strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($bdateM)->format('Y-m-d'))) : '';
 
-
+                    $bdateI =  date('Y-m-d', strtotime(PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow(3, 14)->getValue())->format('Y-m-d')));
+                    $bdateI1 =  PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow(3, 14)->getValue());
                     $newData = (object) array(
                         'number'        => $worksheet->getCellByColumnAndRow(1, 3)->getValue(),
                         'number_hk'     => str_replace(' ', '', $number_hk . $number_hk1),
@@ -376,7 +384,8 @@ class Nhankhau extends MY_Controller
                         'to_ward'       => $worksheet->getCellByColumnAndRow(6, 9)->getValue(),
                         'to_city'       => $worksheet->getCellByColumnAndRow(8, 9)->getValue(),
                         // 'birtdate'      => PHPExcel_Shared_Date::ExcelToPHPObject($worksheet->getCellByColumnAndRow(3, 14)->getValue())->format('Y-m-d'),
-                        'birtdate'      => $bdateFM,
+                        'birtdate'      => $bdateM,
+                        'birtdate_import' => $bdateI . ',' . $bdateI1,
                         'nguyenquan'    => $worksheet->getCellByColumnAndRow(3, 16)->getValue(),
                         'dantoc'        => $worksheet->getCellByColumnAndRow(2, 15)->getValue(),
                         'tongiao'       => $worksheet->getCellByColumnAndRow(5, 15)->getValue(),
@@ -392,8 +401,6 @@ class Nhankhau extends MY_Controller
                         'sex'           => $worksheet->getCellByColumnAndRow(8, 13)->getValue() ? 'NAM' : 'NỮ',
                         'status'        => 4
                     );
-
-
                     array_push($arrReturn, $newData);
 
                     // if(!empty($newData->type) && (int)$newData->type > 0 ){
@@ -413,7 +420,8 @@ class Nhankhau extends MY_Controller
 
                         $d1 = $worksheet->getCellByColumnAndRow($col_birtdate, $row + $i)->getValue();
                         $bdate = !empty($d1) ?  date_format(date_create_from_format('d/m/Y', $d1), 'Y-m-d') : '';
-
+                        $bdateI = $d1;
+                        $bdateI1 = PHPExcel_Shared_Date::ExcelToPHPObject($d1)->format('Y-m-d');
                         $data = (object) array(
                             'number'        => $newData->number,
                             'number_hk'     => $newData->number_hk,
@@ -423,6 +431,7 @@ class Nhankhau extends MY_Controller
                             'to_city'       => $newData->to_city,
                             'full_name'     => $fullname,
                             'birtdate'     => $bdate,
+                            'birtdate_import'      => $bdateI . ',' . $bdateI1,
                             'sex'     => $worksheet->getCellByColumnAndRow($col_sex, $row + $i)->getValue(),
                             'nguyenquan'     => $worksheet->getCellByColumnAndRow($col_nguyenquan, $row + $i)->getValue(),
                             'dantoc'     => $worksheet->getCellByColumnAndRow($col_dantoc, $row + $i)->getValue(),
@@ -455,11 +464,9 @@ class Nhankhau extends MY_Controller
                         $this->db->insert('nhankhau', $value);
                         $value->nk_id = $this->db->insert_id();
 
-                        // $tmp = $value;
-                        // unset($tmp->created);
-                        // $this->db->insert('nhankhau_imports', $value);
                         $arrReturn[$key]->is_insert = 1;
                     } else {
+                        $value->nk_id = $data->id;
                         $arrReturn[$key]->is_insert = 0;
                         if ($value->status == 3) {
                             $this->db->update('nhankhau', array(
@@ -482,13 +489,9 @@ class Nhankhau extends MY_Controller
                     if (empty($data1) && !empty($value->full_name)) {
                         $this->db->insert('nhankhau', $value);
                         $value->nk_id = $this->db->insert_id();
-
-                        // $tmp = $value;
-                        // unset($tmp->created);
-                        // $this->db->insert('nhankhau_imports', $value);
-
                         $arrReturn[$key]->is_insert = 1;
                     } else {
+                        $value->nk_id = $data1->id;
                         $arrReturn[$key]->is_insert = 0;
                         if ($value->status == 3) {
                             $this->db->update(
@@ -787,5 +790,16 @@ class Nhankhau extends MY_Controller
 
 
         $this->render('nhankhau/edit', 'empty');
+    }
+
+    public function ajax_update_birtdate()
+    {
+        $_POST  = json_decode(file_get_contents('php://input'), true);
+        $this->db->update('nhankhau',array('birtdate'=> date_format(date_create_from_format('d/m/Y', $this->input->post('date')), 'Y-m-d')),array('id'=>$this->input->post('id')));
+        if ($this->db->affected_rows() > 0){
+            echo json_encode(array('status' => 1, 'message' => 'Cập nhật thành công!'));
+        }else{
+            echo json_encode(array('status' => 0, 'message' => 'Định dạng không hợp lệ!'));
+        }
     }
 }

@@ -49,6 +49,7 @@ $config['ci_bootstrap'] = array(
 			'assets/plugins/jQueryUI/jquery.number.js',
 			'assets/plugins/timepicker/bootstrap-timepicker.min.js',
 			'assets/plugins/iCheck/icheck.min.js',
+			'assets/plugins/angularjs/angularjs.min.js',
 
 			'assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js',
 		),
